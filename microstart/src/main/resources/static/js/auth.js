@@ -1,4 +1,4 @@
-const BASE_URL = "http://localhost:8081";
+const BASE_URL = "";
 
 function showMsg(text,type="error"){
 const box = document.getElementById("msg");
@@ -94,6 +94,9 @@ const result = await res.json();
 if(res.ok && result.token){
 
 localStorage.setItem("token",result.token);
+if(result.refreshToken){
+    localStorage.setItem("refreshToken",result.refreshToken);
+}
 
 showMsg("Login successful!","success");
 
@@ -110,3 +113,62 @@ showMsg("Unable to connect to server");
 }
 
 }
+
+async function forgotPassword(){
+    const email = document.getElementById("email").value.trim();
+    if(!email){
+        showMsg("Enter your email");
+        return;
+    }
+    
+    try {
+        const res = await fetch(BASE_URL + "/api/auth/forgot-password",{
+            method:"POST",
+            headers:{"Content-Type":"application/json"},
+            body:JSON.stringify({email:email})
+        });
+        const result = await res.json();
+        if(res.ok){
+            showMsg(result.message || "Password reset link sent!", "success");
+        } else {
+            showMsg(result.error || "Failed to send reset link");
+        }
+    } catch(e){
+        showMsg("Unable to connect to server");
+    }
+}
+
+async function resetPassword(){
+    const urlParams = new URLSearchParams(window.location.search);
+    const token = urlParams.get('token');
+    
+    if(!token) {
+        showMsg("Invalid or missing reset token");
+        return;
+    }
+
+    const password = document.getElementById("password").value.trim();
+    if(password.length < 4){
+        showMsg("Password must be at least 4 characters");
+        return;
+    }
+
+    try {
+        const res = await fetch(BASE_URL + "/api/auth/reset-password",{
+            method:"POST",
+            headers:{"Content-Type":"application/json"},
+            body:JSON.stringify({token:token, newPassword:password})
+        });
+        const result = await res.json();
+        if(res.ok){
+            showMsg("Password reset successfully! Redirecting...","success");
+            setTimeout(() => {
+                window.location.href="login.html";
+            }, 1200);
+        } else {
+            showMsg(result.error || "Failed to reset password");
+        }
+    } catch(e){
+        showMsg("Unable to connect to server");
+    }
+}

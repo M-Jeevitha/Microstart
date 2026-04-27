@@ -22,7 +22,8 @@
             <a href="tracking.html">Tracking</a>
             <a href="budget.html">Budgeting</a>
             <a href="education.html" class="active">Education</a>
-            <a href="admin.html">Admin</a>
+            <a href="profile.html">Profile</a>
+            <a href="admin.html">Admin Central</a>
         </nav>
 
         <a href="login.html" class="logout-btn">Logout</a>
@@ -75,23 +76,29 @@
 
                 <div class="lesson-list">
 
-                    <div class="lesson-card">
-                        <h4>Budgeting Basics</h4>
-                        <p>Create monthly plans and savings goals.</p>
-                        <div class="progress"><div style="width:100%"></div></div>
-                    </div>
+                    <a href="https://www.coursera.org/courses?query=budgeting" target="_blank" style="text-decoration: none;">
+                        <div class="lesson-card" style="cursor: pointer;">
+                            <h4 style="color: #fff;">Budgeting Basics ↗</h4>
+                            <p>Create monthly plans and savings goals via Coursera.</p>
+                            <div class="progress"><div style="width:100%"></div></div>
+                        </div>
+                    </a>
 
-                    <div class="lesson-card">
-                        <h4>Understanding Credit</h4>
-                        <p>Improve credit score and repayment habits.</p>
-                        <div class="progress"><div style="width:78%"></div></div>
-                    </div>
+                    <a href="https://www.coursera.org/courses?query=credit" target="_blank" style="text-decoration: none;">
+                        <div class="lesson-card" style="cursor: pointer;">
+                            <h4 style="color: #fff;">Understanding Credit ↗</h4>
+                            <p>Improve credit score and repayment habits via Coursera.</p>
+                            <div class="progress"><div style="width:78%"></div></div>
+                        </div>
+                    </a>
 
-                    <div class="lesson-card">
-                        <h4>Loans & Grants</h4>
-                        <p>Know the right funding options for growth.</p>
-                        <div class="progress"><div style="width:54%"></div></div>
-                    </div>
+                    <a href="https://www.coursera.org/browse/business/finance" target="_blank" style="text-decoration: none;">
+                        <div class="lesson-card" style="cursor: pointer;">
+                            <h4 style="color: #fff;">Loans & Grants ↗</h4>
+                            <p>Know the right funding options for growth via Coursera.</p>
+                            <div class="progress"><div style="width:54%"></div></div>
+                        </div>
+                    </a>
 
                 </div>
 
@@ -103,18 +110,16 @@
                     <h3>Quick Quiz</h3>
                 </div>
 
-                <p class="muted-text">What is the best habit for long-term financial health?</p>
+                <div id="quizContainer">
+                    <p id="quizQuestion" class="muted-text" style="margin-bottom: 15px; font-weight: 500;">Loading question...</p>
+                    
+                    <div id="quizOptions" style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 15px;">
+                        <!-- Options injected by JS -->
+                    </div>
 
-                <select id="quizAnswer" class="input">
-                    <option value="">Choose Answer</option>
-                    <option>Regular Saving</option>
-                    <option>Ignoring Debt</option>
-                    <option>Random Spending</option>
-                </select>
-
-                <button class="primary-action" onclick="submitQuiz()">Submit</button>
-
-                <div id="quizResult" style="margin-top:18px;"></div>
+                    <button class="primary-action" id="quizSubmitBtn" onclick="submitDynamicQuiz()">Submit Answer</button>
+                    <div id="quizResult" style="margin-top:18px;"></div>
+                </div>
 
             </div>
 

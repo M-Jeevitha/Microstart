@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 
@@ -31,7 +32,8 @@
             <a href="tracking.html">Tracking</a>
             <a href="budget.html">Budgeting</a>
             <a href="education.html">Education</a>
-            <a href="admin.html">Admin</a>
+            <a href="profile.html">Profile</a>
+            <a href="admin.html">Admin Central</a>
 
         </nav>
 
@@ -110,15 +112,8 @@
                     <button class="mini-btn">Export</button>
                 </div>
 
-                <div class="bar-chart">
-
-                    <div class="bar-wrap"><span style="height:40%"></span><small>Jan</small></div>
-                    <div class="bar-wrap"><span style="height:65%"></span><small>Feb</small></div>
-                    <div class="bar-wrap"><span style="height:52%"></span><small>Mar</small></div>
-                    <div class="bar-wrap"><span style="height:84%"></span><small>Apr</small></div>
-                    <div class="bar-wrap"><span style="height:72%"></span><small>May</small></div>
-                    <div class="bar-wrap"><span style="height:92%"></span><small>Jun</small></div>
-
+                <div class="bar-chart" style="position: relative; height:260px; width:100%;">
+                    <canvas id="growthChart"></canvas>
                 </div>
 
             </div>

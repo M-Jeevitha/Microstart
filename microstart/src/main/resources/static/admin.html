@@ -3,8 +3,122 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <title>Admin | MicroStart</title>
+    <title>Admin Dashboard | MicroStart</title>
     <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .admin-nav {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 25px;
+            overflow-x: auto;
+            padding-bottom: 5px;
+        }
+        .admin-nav button {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border);
+            color: var(--muted);
+            padding: 10px 20px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: .3s;
+            white-space: nowrap;
+        }
+        .admin-nav button:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+        }
+        .admin-nav button.active {
+            background: linear-gradient(135deg, var(--primary), var(--primary2));
+            color: white;
+            border-color: transparent;
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);
+        }
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .tab-content.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            color: #fff;
+        }
+        .admin-table th, .admin-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--glass-border);
+        }
+        .admin-table th {
+            color: var(--muted);
+            font-weight: 600;
+        }
+        .admin-table tr:hover {
+            background: rgba(255, 255, 255, 0.02);
+        }
+        
+        .pill-green { background: rgba(16, 185, 129, 0.15); color: #10b981; padding: 4px 12px; border-radius: 99px; font-size: 12px; font-weight: 700; border: 1px solid rgba(16, 185, 129, 0.3); }
+        .pill-red { background: rgba(239, 68, 68, 0.15); color: #ef4444; padding: 4px 12px; border-radius: 99px; font-size: 12px; font-weight: 700; border: 1px solid rgba(239, 68, 68, 0.3); }
+        .pill-blue { background: rgba(59, 130, 246, 0.15); color: #3b82f6; padding: 4px 12px; border-radius: 99px; font-size: 12px; font-weight: 700; border: 1px solid rgba(59, 130, 246, 0.3); }
+        .pill-yellow { background: rgba(245, 158, 11, 0.15); color: #f59e0b; padding: 4px 12px; border-radius: 99px; font-size: 12px; font-weight: 700; border: 1px solid rgba(245, 158, 11, 0.3); }
+
+        .input {
+            width: 100%;
+            padding: 12px;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--glass-border);
+            border-radius: 10px;
+            color: #fff;
+            margin-bottom: 15px;
+            outline: none;
+            transition: .3s;
+        }
+        .input:focus { border-color: var(--primary); box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.2); }
+        
+        .primary-action {
+            background: linear-gradient(135deg, var(--primary), var(--primary2));
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 10px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: .3s;
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);
+        }
+        .primary-action:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(139, 92, 246, 0.6); }
+
+        .action-sm {
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            border: 1px solid var(--glass-border);
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+            transition: .2s;
+        }
+        .action-sm:hover { background: rgba(255, 255, 255, 0.1); }
+        
+        .grid-three {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+    </style>
 </head>
 <body>
 
@@ -22,77 +136,288 @@
             <a href="tracking.html">Tracking</a>
             <a href="budget.html">Budgeting</a>
             <a href="education.html">Education</a>
-            <a href="admin.html" class="active">Admin</a>
+            <a href="admin.html" class="active">Admin Central</a>
         </nav>
 
-        <a href="login.html" class="logout-btn">Logout</a>
+        <div class="side-bottom">
+            <a href="login.html" class="logout-btn">Logout</a>
+        </div>
     </aside>
 
     <main class="main">
 
         <header class="top-header">
             <div>
-                <h1>Admin Management</h1>
-                <p>Manage funding programs, users and platform content.</p>
+                <h1>Admin Command Center</h1>
+                <p>Manage users, content, funding, and monitor platform AI insights.</p>
             </div>
         </header>
 
-        <section class="grid-two">
+        <div class="admin-nav">
+            <button class="active" onclick="switchTab('dashboardTab')">Dashboard</button>
+            <button onclick="switchTab('usersTab')">User Management</button>
+            <button onclick="switchTab('fundingTab')">Funding Management</button>
+            <button onclick="switchTab('contentTab')">Content Management</button>
+            <button onclick="switchTab('aiTab')">AI Insights</button>
+            <button onclick="switchTab('reportsTab')">Reports & Logs</button>
+        </div>
 
-            <div class="panel">
-
-                <div class="panel-head">
-                    <h3>Add Funding Program</h3>
+        <!-- 1. Dashboard Tab -->
+        <div id="dashboardTab" class="tab-content active">
+            <section class="stats-grid">
+                <div class="stat-card">
+                    <span>Total Active Users</span>
+                    <h2>1,284</h2>
+                    <small class="green">+4.2% this week</small>
                 </div>
-
-                <input id="fundName" class="input" placeholder="Program Name">
-                <input id="fundAmount" class="input" placeholder="Maximum Amount">
-
-                <button class="primary-action" onclick="addFunding()">Add Program</button>
-
-                <div id="adminMsg" style="margin-top:18px;"></div>
-
-            </div>
-
-            <div class="panel">
-
-                <div class="panel-head">
-                    <h3>Recent Programs</h3>
+                <div class="stat-card">
+                    <span>Pending Funding Requests</span>
+                    <h2>34</h2>
+                    <small class="blue">Require review</small>
                 </div>
+                <div class="stat-card">
+                    <span>Funds Disbursed</span>
+                    <h2>₹4.2 Cr</h2>
+                    <small class="green">Total lifetime</small>
+                </div>
+                <div class="stat-card">
+                    <span>System Health</span>
+                    <h2>99.9%</h2>
+                    <small class="green">All systems operational</small>
+                </div>
+            </section>
+            
+            <section class="grid-two" style="margin-top: 20px;">
+                <div class="panel">
+                    <div class="panel-head">
+                        <h3>User Registration Trends</h3>
+                    </div>
+                    <div style="height: 250px; position: relative;">
+                        <canvas id="adminTrendChart"></canvas>
+                    </div>
+                </div>
+                <div class="panel">
+                    <div class="panel-head">
+                        <h3>Recent Activity Logs</h3>
+                    </div>
+                    <div class="activity-list">
+                        <div class="activity-item">
+                            <div class="dot blue-bg"></div>
+                            <div><strong>New User Verified</strong><p>Rahul K. completed KYC</p></div><small>5m ago</small>
+                        </div>
+                        <div class="activity-item">
+                            <div class="dot green-bg"></div>
+                            <div><strong>Funding Approved</strong><p>Admin approved MSME Loan #102</p></div><small>12m ago</small>
+                        </div>
+                        <div class="activity-item">
+                            <div class="dot red-bg"></div>
+                            <div><strong>Security Alert</strong><p>Multiple failed logins for admin@...</p></div><small>1h ago</small>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
 
+        <!-- 2. User Management Tab -->
+        <div id="usersTab" class="tab-content">
+            <div class="panel">
+                <div class="panel-head">
+                    <h3>User Directory</h3>
+                    <button class="primary-action" style="padding: 8px 15px; font-size: 13px;">+ Add User</button>
+                </div>
+                <input type="text" class="input" placeholder="Search users by name or email..." style="max-width: 400px;">
+                
                 <table class="admin-table">
                     <tr>
+                        <th>ID</th>
                         <th>Name</th>
-                        <th>Amount</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                    <tr>
+                        <td>#U001</td>
+                        <td>Priya Sharma</td>
+                        <td>priya@example.com</td>
+                        <td><span class="pill-blue">User</span></td>
+                        <td><span class="pill-green">Verified</span></td>
+                        <td>
+                            <button class="action-sm">Edit</button>
+                            <button class="action-sm" style="color: #ef4444;">Suspend</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>#U002</td>
+                        <td>Amit Patel</td>
+                        <td>amit@example.com</td>
+                        <td><span class="pill-blue">User</span></td>
+                        <td><span class="pill-yellow">Pending KYC</span></td>
+                        <td>
+                            <button class="action-sm" style="color: #10b981;">Verify</button>
+                            <button class="action-sm">Edit</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>#A001</td>
+                        <td>System Admin</td>
+                        <td>admin@microstart.com</td>
+                        <td><span class="pill-red">Admin</span></td>
+                        <td><span class="pill-green">Verified</span></td>
+                        <td>
+                            <button class="action-sm">Edit</button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <!-- 3. Funding Management Tab -->
+        <div id="fundingTab" class="tab-content">
+            <section class="grid-two">
+                <div class="panel">
+                    <div class="panel-head">
+                        <h3>Create Microloan / Scheme</h3>
+                    </div>
+                    <input id="fundName" class="input" placeholder="Program Name (e.g. MSME Tech Grant)">
+                    <input id="fundType" class="input" placeholder="Type (Loan, Grant, Scheme)">
+                    <input id="fundAmount" class="input" placeholder="Maximum Amount Limit">
+                    <textarea class="input" placeholder="Eligibility Criteria..." rows="3"></textarea>
+                    
+                    <button class="primary-action" onclick="addFunding()">Publish Program</button>
+                    <div id="adminMsg" style="margin-top:18px;"></div>
+                </div>
+
+                <div class="panel">
+                    <div class="panel-head">
+                        <h3>Active Programs</h3>
+                    </div>
+                    <table class="admin-table">
+                        <tr>
+                            <th>Program</th>
+                            <th>Cap</th>
+                            <th>Status</th>
+                        </tr>
+                        <tr>
+                            <td>Women Startup Grant</td>
+                            <td>₹2,00,000</td>
+                            <td><span class="pill-green">Active</span></td>
+                        </tr>
+                        <tr>
+                            <td>Rural Agri-Loan</td>
+                            <td>₹50,000</td>
+                            <td><span class="pill-green">Active</span></td>
+                        </tr>
+                        <tr>
+                            <td>Tech Innovator Scheme</td>
+                            <td>₹10,00,000</td>
+                            <td><span class="pill-red">Closed</span></td>
+                        </tr>
+                    </table>
+                </div>
+            </section>
+        </div>
+
+        <!-- 4. Content Management Tab -->
+        <div id="contentTab" class="tab-content">
+            <div class="panel">
+                <div class="panel-head">
+                    <h3>Financial Education Modules</h3>
+                    <button class="primary-action" style="padding: 8px 15px; font-size: 13px;">Upload Module</button>
+                </div>
+                <div class="grid-three">
+                    <div class="stat-card" style="padding: 20px;">
+                        <h4 style="color: #fff; margin-bottom: 5px;">Basics of Budgeting</h4>
+                        <p style="color: var(--muted); font-size: 13px; margin-bottom: 15px;">Module 1 • Video & Quiz</p>
+                        <button class="action-sm">Edit Content</button>
+                    </div>
+                    <div class="stat-card" style="padding: 20px;">
+                        <h4 style="color: #fff; margin-bottom: 5px;">Understanding Credit</h4>
+                        <p style="color: var(--muted); font-size: 13px; margin-bottom: 15px;">Module 2 • Text & PDF</p>
+                        <button class="action-sm">Edit Content</button>
+                    </div>
+                    <div class="stat-card" style="padding: 20px; border: 1px dashed var(--glass-border); background: transparent; display: flex; align-items: center; justify-content: center; cursor: pointer;">
+                        <span style="color: var(--primary);">+ Create New Quiz</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 5. AI Insights & Monitoring Tab -->
+        <div id="aiTab" class="tab-content">
+            <div class="panel" style="border: 1px solid var(--primary2); box-shadow: 0 0 20px rgba(139, 92, 246, 0.1);">
+                <div class="panel-head">
+                    <h3 style="display: flex; align-items: center; gap: 8px;">
+                        <span style="font-size: 20px;">✨</span> AI System Recommendations
+                    </h3>
+                </div>
+                <div class="activity-list">
+                    <div class="activity-item" style="background: rgba(255,255,255,0.02); padding: 15px; border-radius: 12px; margin-bottom: 10px;">
+                        <div>
+                            <strong style="color: #8b5cf6;">High Drop-off Rate Detected</strong>
+                            <p style="margin-top: 4px;">42% of users abandon the "Tech Innovator Scheme" form at step 3. Consider simplifying the document upload requirements.</p>
+                        </div>
+                    </div>
+                    <div class="activity-item" style="background: rgba(255,255,255,0.02); padding: 15px; border-radius: 12px; margin-bottom: 10px;">
+                        <div>
+                            <strong style="color: #10b981;">Rising Trend: Agri-Loans</strong>
+                            <p style="margin-top: 4px;">Searches for agricultural microloans have increased by 28% this month. Recommendation: Increase fund allocation for rural schemes.</p>
+                        </div>
+                    </div>
+                    <div class="activity-item" style="background: rgba(255,255,255,0.02); padding: 15px; border-radius: 12px;">
+                        <div>
+                            <strong style="color: #ef4444;">Anomaly Detected</strong>
+                            <p style="margin-top: 4px;">Unusual spike in account creations from IP range 192.168.x.x. System has temporarily enabled CAPTCHA for registration.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 6. Reports & Logs Tab -->
+        <div id="reportsTab" class="tab-content">
+            <div class="panel">
+                <div class="panel-head">
+                    <h3>Audit & Transaction Logs</h3>
+                    <button class="primary-action" style="padding: 8px 15px; font-size: 13px;">Download CSV Report</button>
+                </div>
+                <table class="admin-table">
+                    <tr>
+                        <th>Timestamp</th>
+                        <th>Action By</th>
+                        <th>Event</th>
+                        <th>IP Address</th>
                         <th>Status</th>
                     </tr>
-
                     <tr>
-                        <td>Women Startup Grant</td>
-                        <td>₹2L</td>
-                        <td><span class="pill-green">Active</span></td>
+                        <td>2026-04-27 10:42 AM</td>
+                        <td>admin@microstart.com</td>
+                        <td>Published new scheme: MSME Fund</td>
+                        <td>10.0.0.45</td>
+                        <td><span class="pill-green">Success</span></td>
                     </tr>
-
                     <tr>
-                        <td>MSME Fund</td>
-                        <td>₹10L</td>
-                        <td><span class="pill-green">Active</span></td>
+                        <td>2026-04-27 11:15 AM</td>
+                        <td>system_auto</td>
+                        <td>Automated Database Backup</td>
+                        <td>localhost</td>
+                        <td><span class="pill-green">Success</span></td>
                     </tr>
-
                     <tr>
-                        <td>Education Grant</td>
-                        <td>₹1L</td>
-                        <td><span class="pill-red">Closed</span></td>
+                        <td>2026-04-27 12:30 PM</td>
+                        <td>Unknown</td>
+                        <td>Failed API auth attempt</td>
+                        <td>192.168.1.104</td>
+                        <td><span class="pill-red">Failed</span></td>
                     </tr>
-
                 </table>
-
             </div>
-
-        </section>
+        </div>
 
     </main>
 </div>
+
+<div class="toast" id="toast">Action completed</div>
 
 <script src="js/admin.js"></script>
 </body>

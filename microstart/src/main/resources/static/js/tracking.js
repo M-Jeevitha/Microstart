@@ -5,10 +5,12 @@ window.onload = function() {
         return;
     }
     
+    // Parse JWT to check role
     try {
         const payload = JSON.parse(atob(token.split('.')[1]));
         const role = payload.role || payload.authorities;
         
+        // Only show admin link if role contains admin
         if(role && role.includes("ROLE_ADMIN")) {
             const adminLinks = document.querySelectorAll('a[href="admin.html"]');
             adminLinks.forEach(link => link.style.display = "block");
@@ -31,14 +33,3 @@ window.onload = function() {
         };
     });
 };
-
-function showToast(msg){
-const toast=document.getElementById("toast");
-toast.innerHTML=msg;
-toast.classList.add("show");
-setTimeout(()=>toast.classList.remove("show"),2500);
-}
-
-function applyFund(name){
-showToast("Application started for " + name);
-}

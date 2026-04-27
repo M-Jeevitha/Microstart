@@ -2,6 +2,7 @@ package com.project.microstart.config;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -13,23 +14,24 @@ import java.util.function.Function;
 @Service
 public class JwtService {
 
-    // 🔥 Put real base64 256-bit key here
-    private static final String SECRET_KEY =
-            "UatA7vNdZ3HlGOsecIOEBP8Fx+jqfm/tmCLwotDLsig=";
+    @Value("${jwt.secret}")
+    private String secretKey;
+
+    @Value("${jwt.expiration}")
+    private long jwtExpiration;
 
     private SecretKey getSigningKey() {
-        byte[] keyBytes = Base64.getDecoder().decode(SECRET_KEY);
+        byte[] keyBytes = Base64.getDecoder().decode(secretKey);
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
-    // ✅ EMAIL is subject
-    public String generateToken(String email) {
+    public String generateToken(UserDetails userDetails) {
+        String role = userDetails.getAuthorities().iterator().next().getAuthority();
         return Jwts.builder()
-                .setSubject(email)
+                .setSubject(userDetails.getUsername())
+                .claim("role", role)
                 .setIssuedAt(new Date())
-                .setExpiration(
-                        new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24)
-                )
+                .setExpiration(new Date(System.currentTimeMillis() + jwtExpiration))
                 .signWith(getSigningKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
