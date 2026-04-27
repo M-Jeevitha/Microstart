@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>Budgeting | MicroStart</title>
+    <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+
+<div class="app-layout">
+
+    <aside class="sidebar">
+        <div class="brand-wrap">
+            <div class="brand-mark">M</div>
+            <div><h2>MicroStart</h2><span>Fintech Suite</span></div>
+        </div>
+
+        <nav class="side-nav">
+            <a href="dashboard.html">Dashboard</a>
+            <a href="funding.html">Funding</a>
+            <a href="tracking.html">Tracking</a>
+            <a href="budget.html" class="active">Budgeting</a>
+            <a href="education.html">Education</a>
+            <a href="admin.html">Admin</a>
+        </nav>
+
+        <a href="login.html" class="logout-btn">Logout</a>
+    </aside>
+
+    <main class="main">
+
+        <header class="top-header">
+            <div>
+                <h1>Budget Planner</h1>
+                <p>Track income, expenses and monthly savings.</p>
+            </div>
+        </header>
+
+        <section class="grid-two">
+
+            <div class="panel">
+
+                <h3>Add Monthly Data</h3>
+
+                <input id="income" class="input" placeholder="Monthly Income">
+                <input id="expense" class="input" placeholder="Monthly Expense">
+
+                <button class="primary-action" onclick="calcBudget()">Calculate</button>
+
+                <div id="resultBox"></div>
+
+            </div>
+
+            <div class="panel">
+
+                <h3>Expense Breakdown</h3>
+
+                <div class="bar-chart small-chart">
+                    <div class="bar-wrap"><span style="height:80%"></span><small>Rent</small></div>
+                    <div class="bar-wrap"><span style="height:55%"></span><small>Food</small></div>
+                    <div class="bar-wrap"><span style="height:35%"></span><small>Travel</small></div>
+                    <div class="bar-wrap"><span style="height:25%"></span><small>Other</small></div>
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+</div>
+
+<script src="js/budget.js"></script>
+</body>
+</html>

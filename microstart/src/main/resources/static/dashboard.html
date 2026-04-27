@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>Dashboard | MicroStart</title>
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="app-layout">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+
+        <div class="brand-wrap">
+            <div class="brand-mark">M</div>
+            <div>
+                <h2>MicroStart</h2>
+                <span>Fintech Suite</span>
+            </div>
+        </div>
+
+        <nav class="side-nav">
+
+            <a href="dashboard.html" class="active">Dashboard</a>
+            <a href="funding.html">Funding</a>
+            <a href="tracking.html">Tracking</a>
+            <a href="budget.html">Budgeting</a>
+            <a href="education.html">Education</a>
+            <a href="admin.html">Admin</a>
+
+        </nav>
+
+        <div class="side-bottom">
+            <a href="login.html" class="logout-btn">Logout</a>
+        </div>
+
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main">
+
+        <header class="top-header">
+
+            <div>
+                <h1>Welcome Back 👋</h1>
+                <p>Monitor funding, budgeting and progress in real time.</p>
+            </div>
+
+            <div class="header-actions">
+
+                <button class="icon-btn" onclick="toggleNotifications()">
+                    🔔
+                    <span class="badge">3</span>
+                </button>
+
+                <div class="notify-panel" id="notifyPanel">
+                    <h4>Notifications</h4>
+                    <p>Loan application approved</p>
+                    <p>Budget report ready</p>
+                    <p>New education lesson added</p>
+                </div>
+
+                <button class="profile-btn">
+                    JM
+                </button>
+
+            </div>
+
+        </header>
+
+        <section class="stats-grid">
+
+            <div class="stat-card">
+                <span>Total Savings</span>
+                <h2>₹48,200</h2>
+                <small class="green">+12.4% this month</small>
+            </div>
+
+            <div class="stat-card">
+                <span>Funding Requests</span>
+                <h2>08</h2>
+                <small class="blue">2 pending approvals</small>
+            </div>
+
+            <div class="stat-card">
+                <span>Credit Score</span>
+                <h2>784</h2>
+                <small class="green">Excellent</small>
+            </div>
+
+            <div class="stat-card">
+                <span>Monthly Expenses</span>
+                <h2>₹17,400</h2>
+                <small class="red">+4.2% rise</small>
+            </div>
+
+        </section>
+
+        <section class="grid-two">
+
+            <div class="panel chart-panel">
+
+                <div class="panel-head">
+                    <h3>Growth Analytics</h3>
+                    <button class="mini-btn">Export</button>
+                </div>
+
+                <div class="bar-chart">
+
+                    <div class="bar-wrap"><span style="height:40%"></span><small>Jan</small></div>
+                    <div class="bar-wrap"><span style="height:65%"></span><small>Feb</small></div>
+                    <div class="bar-wrap"><span style="height:52%"></span><small>Mar</small></div>
+                    <div class="bar-wrap"><span style="height:84%"></span><small>Apr</small></div>
+                    <div class="bar-wrap"><span style="height:72%"></span><small>May</small></div>
+                    <div class="bar-wrap"><span style="height:92%"></span><small>Jun</small></div>
+
+                </div>
+
+            </div>
+
+            <div class="panel">
+
+                <div class="panel-head">
+                    <h3>Recent Activity</h3>
+                </div>
+
+                <div class="activity-list">
+
+                    <div class="activity-item">
+                        <div class="dot green-bg"></div>
+                        <div>
+                            <strong>Loan Approved</strong>
+                            <p>Startup Growth Fund</p>
+                        </div>
+                        <small>2h ago</small>
+                    </div>
+
+                    <div class="activity-item">
+                        <div class="dot blue-bg"></div>
+                        <div>
+                            <strong>Budget Updated</strong>
+                            <p>Expenses synced</p>
+                        </div>
+                        <small>5h ago</small>
+                    </div>
+
+                    <div class="activity-item">
+                        <div class="dot red-bg"></div>
+                        <div>
+                            <strong>Payment Due</strong>
+                            <p>Reminder sent</p>
+                        </div>
+                        <small>1d ago</small>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <section class="grid-two lower-grid">
+
+            <div class="panel">
+
+                <div class="panel-head">
+                    <h3>Quick Actions</h3>
+                </div>
+
+                <div class="action-grid">
+
+                    <a href="funding.html" class="action-card">Apply Funding</a>
+                    <a href="budget.html" class="action-card">Add Expense</a>
+                    <a href="tracking.html" class="action-card">Track Status</a>
+                    <a href="education.html" class="action-card">Take Quiz</a>
+
+                </div>
+
+            </div>
+
+            <div class="panel">
+
+                <div class="panel-head">
+                    <h3>Progress</h3>
+                </div>
+
+                <div class="progress-item">
+                    <span>Financial Education</span>
+                    <div class="progress"><div style="width:72%"></div></div>
+                </div>
+
+                <div class="progress-item">
+                    <span>Funding Profile</span>
+                    <div class="progress"><div style="width:88%"></div></div>
+                </div>
+
+                <div class="progress-item">
+                    <span>Budget Goals</span>
+                    <div class="progress"><div style="width:61%"></div></div>
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+<div class="toast" id="toast">
+    Welcome back to MicroStart
+</div>
+
+<script src="js/dashboard.js"></script>
+</body>
+</html>

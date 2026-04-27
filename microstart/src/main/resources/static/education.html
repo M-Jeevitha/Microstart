@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>Education | MicroStart</title>
+    <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+
+<div class="app-layout">
+
+    <aside class="sidebar">
+        <div class="brand-wrap">
+            <div class="brand-mark">M</div>
+            <div><h2>MicroStart</h2><span>Fintech Suite</span></div>
+        </div>
+
+        <nav class="side-nav">
+            <a href="dashboard.html">Dashboard</a>
+            <a href="funding.html">Funding</a>
+            <a href="tracking.html">Tracking</a>
+            <a href="budget.html">Budgeting</a>
+            <a href="education.html" class="active">Education</a>
+            <a href="admin.html">Admin</a>
+        </nav>
+
+        <a href="login.html" class="logout-btn">Logout</a>
+    </aside>
+
+    <main class="main">
+
+        <header class="top-header">
+            <div>
+                <h1>Financial Education</h1>
+                <p>Learn practical finance skills through lessons, quizzes and rewards.</p>
+            </div>
+        </header>
+
+        <section class="stats-grid">
+
+            <div class="stat-card">
+                <span>Course Progress</span>
+                <h2>72%</h2>
+                <small class="green">On Track</small>
+            </div>
+
+            <div class="stat-card">
+                <span>Badges Earned</span>
+                <h2>08</h2>
+                <small class="blue">New this week</small>
+            </div>
+
+            <div class="stat-card">
+                <span>Quiz Score</span>
+                <h2>91%</h2>
+                <small class="green">Excellent</small>
+            </div>
+
+            <div class="stat-card">
+                <span>Lessons Left</span>
+                <h2>04</h2>
+                <small>Complete soon</small>
+            </div>
+
+        </section>
+
+        <section class="grid-two">
+
+            <div class="panel">
+
+                <div class="panel-head">
+                    <h3>Learning Modules</h3>
+                </div>
+
+                <div class="lesson-list">
+
+                    <div class="lesson-card">
+                        <h4>Budgeting Basics</h4>
+                        <p>Create monthly plans and savings goals.</p>
+                        <div class="progress"><div style="width:100%"></div></div>
+                    </div>
+
+                    <div class="lesson-card">
+                        <h4>Understanding Credit</h4>
+                        <p>Improve credit score and repayment habits.</p>
+                        <div class="progress"><div style="width:78%"></div></div>
+                    </div>
+
+                    <div class="lesson-card">
+                        <h4>Loans & Grants</h4>
+                        <p>Know the right funding options for growth.</p>
+                        <div class="progress"><div style="width:54%"></div></div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="panel">
+
+                <div class="panel-head">
+                    <h3>Quick Quiz</h3>
+                </div>
+
+                <p class="muted-text">What is the best habit for long-term financial health?</p>
+
+                <select id="quizAnswer" class="input">
+                    <option value="">Choose Answer</option>
+                    <option>Regular Saving</option>
+                    <option>Ignoring Debt</option>
+                    <option>Random Spending</option>
+                </select>
+
+                <button class="primary-action" onclick="submitQuiz()">Submit</button>
+
+                <div id="quizResult" style="margin-top:18px;"></div>
+
+            </div>
+
+        </section>
+
+    </main>
+</div>
+
+<script src="js/education.js"></script>
+</body>
+</html>

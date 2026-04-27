@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>Admin | MicroStart</title>
+    <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+
+<div class="app-layout">
+
+    <aside class="sidebar">
+        <div class="brand-wrap">
+            <div class="brand-mark">M</div>
+            <div><h2>MicroStart</h2><span>Fintech Suite</span></div>
+        </div>
+
+        <nav class="side-nav">
+            <a href="dashboard.html">Dashboard</a>
+            <a href="funding.html">Funding</a>
+            <a href="tracking.html">Tracking</a>
+            <a href="budget.html">Budgeting</a>
+            <a href="education.html">Education</a>
+            <a href="admin.html" class="active">Admin</a>
+        </nav>
+
+        <a href="login.html" class="logout-btn">Logout</a>
+    </aside>
+
+    <main class="main">
+
+        <header class="top-header">
+            <div>
+                <h1>Admin Management</h1>
+                <p>Manage funding programs, users and platform content.</p>
+            </div>
+        </header>
+
+        <section class="grid-two">
+
+            <div class="panel">
+
+                <div class="panel-head">
+                    <h3>Add Funding Program</h3>
+                </div>
+
+                <input id="fundName" class="input" placeholder="Program Name">
+                <input id="fundAmount" class="input" placeholder="Maximum Amount">
+
+                <button class="primary-action" onclick="addFunding()">Add Program</button>
+
+                <div id="adminMsg" style="margin-top:18px;"></div>
+
+            </div>
+
+            <div class="panel">
+
+                <div class="panel-head">
+                    <h3>Recent Programs</h3>
+                </div>
+
+                <table class="admin-table">
+                    <tr>
+                        <th>Name</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                    </tr>
+
+                    <tr>
+                        <td>Women Startup Grant</td>
+                        <td>₹2L</td>
+                        <td><span class="pill-green">Active</span></td>
+                    </tr>
+
+                    <tr>
+                        <td>MSME Fund</td>
+                        <td>₹10L</td>
+                        <td><span class="pill-green">Active</span></td>
+                    </tr>
+
+                    <tr>
+                        <td>Education Grant</td>
+                        <td>₹1L</td>
+                        <td><span class="pill-red">Closed</span></td>
+                    </tr>
+
+                </table>
+
+            </div>
+
+        </section>
+
+    </main>
+</div>
+
+<script src="js/admin.js"></script>
+</body>
+</html>

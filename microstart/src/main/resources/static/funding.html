@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>Funding | MicroStart</title>
+    <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+
+<div class="app-layout">
+
+    <aside class="sidebar">
+        <div class="brand-wrap">
+            <div class="brand-mark">M</div>
+            <div><h2>MicroStart</h2><span>Fintech Suite</span></div>
+        </div>
+
+        <nav class="side-nav">
+            <a href="dashboard.html">Dashboard</a>
+            <a href="funding.html" class="active">Funding</a>
+            <a href="tracking.html">Tracking</a>
+            <a href="budget.html">Budgeting</a>
+            <a href="education.html">Education</a>
+            <a href="admin.html">Admin</a>
+        </nav>
+
+        <div class="side-bottom">
+            <a href="login.html" class="logout-btn">Logout</a>
+        </div>
+    </aside>
+
+    <main class="main">
+
+        <header class="top-header">
+            <div>
+                <h1>Funding Opportunities</h1>
+                <p>Search and apply for loans, grants and startup capital.</p>
+            </div>
+        </header>
+
+        <section class="panel">
+
+            <div class="panel-head">
+                <h3>Search Programs</h3>
+            </div>
+
+            <div class="action-grid">
+                <input type="text" id="searchFund" placeholder="Search funding..." class="input">
+                <select class="input">
+                    <option>All Types</option>
+                    <option>Loan</option>
+                    <option>Grant</option>
+                    <option>Startup</option>
+                </select>
+            </div>
+
+        </section>
+
+        <section class="stats-grid">
+
+            <div class="stat-card">
+                <span>Women Startup Grant</span>
+                <h2>₹2L</h2>
+                <small class="green">Open</small>
+                <button class="mini-btn full-btn" onclick="applyFund('Women Startup Grant')">Apply</button>
+            </div>
+
+            <div class="stat-card">
+                <span>Rural Business Loan</span>
+                <h2>₹5L</h2>
+                <small class="green">Open</small>
+                <button class="mini-btn full-btn" onclick="applyFund('Rural Business Loan')">Apply</button>
+            </div>
+
+            <div class="stat-card">
+                <span>MSME Expansion Fund</span>
+                <h2>₹10L</h2>
+                <small class="blue">Limited</small>
+                <button class="mini-btn full-btn" onclick="applyFund('MSME Expansion Fund')">Apply</button>
+            </div>
+
+            <div class="stat-card">
+                <span>Education Growth Grant</span>
+                <h2>₹1L</h2>
+                <small class="green">Open</small>
+                <button class="mini-btn full-btn" onclick="applyFund('Education Growth Grant')">Apply</button>
+            </div>
+
+        </section>
+
+        <div class="toast" id="toast"></div>
+
+    </main>
+</div>
+
+<script src="js/funding.js"></script>
+</body>
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>Register | MicroStart</title>
+    <link rel="stylesheet" href="css/auth.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="auth-layout">
+
+    <div class="auth-brand register-bg">
+        <div class="overlay"></div>
+
+        <div class="brand-content">
+            <a href="index.html" class="brand-link">← Back to Home</a>
+
+            <h1>Start Building Financial Confidence</h1>
+
+            <p>
+                Create your account and unlock funding tools,
+                budgeting insights and education resources.
+            </p>
+
+            <div class="trust-grid">
+
+                <div class="trust-card">
+                    <h3>Free to Start</h3>
+                    <span>Create account in minutes</span>
+                </div>
+
+                <div class="trust-card">
+                    <h3>Growth Ready</h3>
+                    <span>Upgrade as you scale</span>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="auth-panel">
+
+        <form class="auth-card" onsubmit="event.preventDefault(); register();">
+
+            <div class="logo-mark">M</div>
+
+            <h2>Create Account</h2>
+            <p class="sub">Join MicroStart today</p>
+
+            <label>Full Name</label>
+            <input type="text" id="name" placeholder="Your full name" required>
+
+            <label>Email Address</label>
+            <input type="email" id="email" placeholder="you@example.com" required>
+
+            <label>Password</label>
+
+            <div class="password-wrap">
+                <input type="password" id="password" placeholder="Create password" required>
+                <button type="button" class="eye" onclick="togglePassword('password',this)">👁</button>
+            </div>
+
+            <label class="check terms">
+                <input type="checkbox" required>
+                <span>I agree to the Terms & Privacy Policy</span>
+            </label>
+
+            <button class="primary-btn" type="submit">Create Account</button>
+
+            <div id="msg" class="msg"></div>
+
+            <div class="divider">
+                <span>or</span>
+            </div>
+
+            <a href="login.html" class="ghost-btn">
+                Already have an account
+            </a>
+
+        </form>
+
+    </div>
+
+</div>
+
+<script src="js/auth.js"></script>
+</body>
+</html>
