@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/admin/education")
+@RequestMapping("/api/admin/education")
 @RequiredArgsConstructor
 public class AdminEducationController {
 

@@ -1,4 +1,4 @@
-package com.project.microstart.util;
+package com.project.microstart;
 
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.SignatureAlgorithm;

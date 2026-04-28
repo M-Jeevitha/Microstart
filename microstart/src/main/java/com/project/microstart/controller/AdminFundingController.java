@@ -19,14 +19,14 @@ public class AdminFundingController {
 
     // ➕ Create funding
     @PostMapping
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public Funding createFunding(@RequestBody FundingRequest request) {
         return fundingService.createFunding(request);
     }
 
     // ✅ Approve application
     @PutMapping("/approve/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public FundingApplication approve(@PathVariable Long id,
                                       @RequestParam(defaultValue = "Approved") String remarks) {
 
@@ -35,7 +35,7 @@ public class AdminFundingController {
 
     // ❌ Reject application
     @PutMapping("/reject/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public FundingApplication reject(@PathVariable Long id,
                                      @RequestParam(defaultValue = "Rejected") String remarks) {
 

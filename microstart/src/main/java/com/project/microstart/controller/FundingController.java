@@ -62,14 +62,14 @@ public class FundingController {
 
     // 👨‍💼 Admin - view all applications
     @GetMapping("/admin/applications")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public List<FundingApplication> allApplications() {
         return applicationService.getAllApplications();
     }
 
     // 👨‍💼 Admin - filter applications by status
     @GetMapping("/admin/applications/{status}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public List<FundingApplication> applicationsByStatus(
             @PathVariable ApplicationStatus status) {
 
@@ -78,7 +78,7 @@ public class FundingController {
 
     // 🔥 NEW: Admin approve application
     @PutMapping("/admin/approve/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public FundingApplication approve(
             @PathVariable Long id,
             @RequestParam String remarks) {
@@ -88,7 +88,7 @@ public class FundingController {
 
     // 🔥 NEW: Admin reject application
     @PutMapping("/admin/reject/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public FundingApplication reject(
             @PathVariable Long id,
             @RequestParam String remarks) {
