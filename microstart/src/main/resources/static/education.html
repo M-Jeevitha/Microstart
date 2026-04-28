@@ -29,104 +29,105 @@
         <a href="login.html" class="logout-btn">Logout</a>
     </aside>
 
-    <main class="main">
-
-        <header class="top-header">
+    <main class="main" style="display: flex; flex-direction: column; height: 100vh; padding: 0;">
+        <header class="top-header" style="padding: 15px 30px; border-bottom: 1px solid var(--glass-border);">
             <div>
-                <h1>Financial Education</h1>
-                <p>Learn practical finance skills through lessons, quizzes and rewards.</p>
+                <h1 style="font-size: 20px;">MicroStart Academy</h1>
+                <p style="font-size: 13px;">Master financial skills interactively.</p>
+            </div>
+            <div style="display: flex; gap: 15px; align-items: center;">
+                <div class="stat-badge" style="background: rgba(255,255,255,0.05); padding: 5px 15px; border-radius: 20px; font-size: 13px;">
+                    🔥 Streak: <span id="streakCount" class="green">3 Days</span>
+                </div>
+                <div class="stat-badge" style="background: rgba(255,255,255,0.05); padding: 5px 15px; border-radius: 20px; font-size: 13px;">
+                    ⭐ Score: <span id="totalScore" class="blue">0</span>
+                </div>
             </div>
         </header>
 
-        <section class="stats-grid">
-
-            <div class="stat-card">
-                <span>Course Progress</span>
-                <h2>72%</h2>
-                <small class="green">On Track</small>
+        <div class="edu-layout" style="display: flex; flex: 1; overflow: hidden;">
+            <!-- Left Navigation (W3Schools Style) -->
+            <div class="edu-nav" style="width: 250px; background: rgba(0,0,0,0.2); border-right: 1px solid var(--glass-border); overflow-y: auto; padding: 20px 0;">
+                <h3 style="padding: 0 20px; font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px;">Modules</h3>
+                <ul id="lessonList" style="list-style: none; padding: 0; margin: 0;">
+                    <!-- Populated by JS -->
+                </ul>
             </div>
 
-            <div class="stat-card">
-                <span>Badges Earned</span>
-                <h2>08</h2>
-                <small class="blue">New this week</small>
-            </div>
-
-            <div class="stat-card">
-                <span>Quiz Score</span>
-                <h2>91%</h2>
-                <small class="green">Excellent</small>
-            </div>
-
-            <div class="stat-card">
-                <span>Lessons Left</span>
-                <h2>04</h2>
-                <small>Complete soon</small>
-            </div>
-
-        </section>
-
-        <section class="grid-two">
-
-            <div class="panel">
-
-                <div class="panel-head">
-                    <h3>Learning Modules</h3>
+            <!-- Main Work Area (LeetCode Style Split Pane) -->
+            <div class="edu-workspace" style="display: flex; flex: 1; overflow: hidden;">
+                
+                <!-- Reading Pane -->
+                <div class="edu-reading" style="flex: 1; padding: 30px; overflow-y: auto; border-right: 1px solid var(--glass-border);">
+                    <div id="readingContent">
+                        <h2 id="lessonTitle" style="font-size: 24px; margin-bottom: 15px;">Select a lesson</h2>
+                        <div id="lessonBody" style="color: #cbd5e1; line-height: 1.7;">
+                            <p>Loading module content...</p>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="lesson-list">
-
-                    <a href="https://www.coursera.org/courses?query=budgeting" target="_blank" style="text-decoration: none;">
-                        <div class="lesson-card" style="cursor: pointer;">
-                            <h4 style="color: #fff;">Budgeting Basics ↗</h4>
-                            <p>Create monthly plans and savings goals via Coursera.</p>
-                            <div class="progress"><div style="width:100%"></div></div>
-                        </div>
-                    </a>
-
-                    <a href="https://www.coursera.org/courses?query=credit" target="_blank" style="text-decoration: none;">
-                        <div class="lesson-card" style="cursor: pointer;">
-                            <h4 style="color: #fff;">Understanding Credit ↗</h4>
-                            <p>Improve credit score and repayment habits via Coursera.</p>
-                            <div class="progress"><div style="width:78%"></div></div>
-                        </div>
-                    </a>
-
-                    <a href="https://www.coursera.org/browse/business/finance" target="_blank" style="text-decoration: none;">
-                        <div class="lesson-card" style="cursor: pointer;">
-                            <h4 style="color: #fff;">Loans & Grants ↗</h4>
-                            <p>Know the right funding options for growth via Coursera.</p>
-                            <div class="progress"><div style="width:54%"></div></div>
-                        </div>
-                    </a>
-
-                </div>
-
-            </div>
-
-            <div class="panel">
-
-                <div class="panel-head">
-                    <h3>Quick Quiz</h3>
-                </div>
-
-                <div id="quizContainer">
-                    <p id="quizQuestion" class="muted-text" style="margin-bottom: 15px; font-weight: 500;">Loading question...</p>
-                    
-                    <div id="quizOptions" style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 15px;">
-                        <!-- Options injected by JS -->
+                <!-- Interactive/Quiz Pane -->
+                <div class="edu-interactive" style="flex: 1; padding: 30px; overflow-y: auto; background: rgba(0,0,0,0.15); display: flex; flex-direction: column;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                        <h3 style="color: #fff; font-size: 16px;">Knowledge Check</h3>
+                        <span class="pill-blue" style="font-size: 11px;">Interactive</span>
                     </div>
 
-                    <button class="primary-action" id="quizSubmitBtn" onclick="submitDynamicQuiz()">Submit Answer</button>
-                    <div id="quizResult" style="margin-top:18px;"></div>
+                    <div id="quizContainer" style="flex: 1; background: rgba(255,255,255,0.02); border: 1px solid var(--glass-border); border-radius: 12px; padding: 20px;">
+                        <p id="quizQuestion" style="margin-bottom: 20px; font-weight: 500; color: #fff;">Select a module from the left to begin.</p>
+                        <div id="quizOptions" style="display: flex; flex-direction: column; gap: 10px;">
+                            <!-- Options -->
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 20px; display: flex; justify-content: space-between; align-items: center;">
+                        <div id="quizResult" style="font-size: 14px;"></div>
+                        <button class="primary-action" id="quizSubmitBtn" onclick="submitLessonQuiz()" style="display:none; padding: 10px 25px;">Submit Answer</button>
+                        <button class="primary-action" id="nextLessonBtn" onclick="nextLesson()" style="display:none; background: var(--primary2);">Next Module →</button>
+                    </div>
                 </div>
-
             </div>
-
-        </section>
-
+        </div>
     </main>
 </div>
+
+<style>
+    .edu-nav li {
+        padding: 12px 20px;
+        color: #94a3b8;
+        cursor: pointer;
+        border-left: 3px solid transparent;
+        transition: .2s;
+        font-size: 14px;
+        font-weight: 500;
+    }
+    .edu-nav li:hover { background: rgba(255,255,255,0.05); color: #fff; }
+    .edu-nav li.active {
+        background: rgba(139, 92, 246, 0.1);
+        color: #fff;
+        border-left-color: var(--primary);
+    }
+    .edu-nav li.completed::after {
+        content: ' ✓';
+        color: #10b981;
+    }
+    
+    .opt-label {
+        background: rgba(0,0,0,0.2);
+        padding: 15px;
+        border-radius: 8px;
+        border: 1px solid var(--glass-border);
+        cursor: pointer;
+        transition: .2s;
+        display: flex;
+        align-items: center;
+        color: #cbd5e1;
+    }
+    .opt-label:hover { border-color: rgba(139, 92, 246, 0.5); background: rgba(139, 92, 246, 0.05); }
+    .opt-label input:checked + span { color: #fff; font-weight: 600; }
+    .opt-label.selected { border-color: var(--primary); background: rgba(139, 92, 246, 0.1); }
+</style>
 
 <script src="js/education.js"></script>
 </body>

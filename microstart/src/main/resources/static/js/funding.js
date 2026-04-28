@@ -30,15 +30,66 @@ window.onload = function() {
             window.location.href="login.html";
         };
     });
+    loadFundingPrograms();
 };
 
+const BASE_URL = "";
+
 function showToast(msg){
-const toast=document.getElementById("toast");
-toast.innerHTML=msg;
-toast.classList.add("show");
-setTimeout(()=>toast.classList.remove("show"),2500);
+    const toast=document.getElementById("toast");
+    if(!toast) return;
+    toast.innerHTML=msg;
+    toast.classList.add("show");
+    setTimeout(()=>toast.classList.remove("show"),2500);
 }
 
-function applyFund(name){
-showToast("Application started for " + name);
+async function loadFundingPrograms() {
+    const token = localStorage.getItem("token");
+    try {
+        const res = await fetch(BASE_URL + "/api/funding", {
+            headers: { "Authorization": "Bearer " + token }
+        });
+        if(res.ok) {
+            const fundings = await res.json();
+            const grid = document.getElementById("fundingGrid");
+            if(fundings.length === 0) {
+                grid.innerHTML = "<p style='color:var(--muted);'>No funding programs available right now.</p>";
+                return;
+            }
+            
+            let html = "";
+            fundings.forEach(f => {
+                html += `
+                <div class="stat-card">
+                    <span>${f.name}</span>
+                    <h2>₹${f.maxAmount}</h2>
+                    <small class="green">Open</small>
+                    <button class="mini-btn full-btn" onclick="applyFund(${f.id}, '${f.name}')">Apply</button>
+                </div>
+                `;
+            });
+            grid.innerHTML = html;
+        }
+    } catch(e) {
+        document.getElementById("fundingGrid").innerHTML = "<p style='color:#ef4444;'>Failed to load programs.</p>";
+    }
+}
+
+async function applyFund(id, name) {
+    const token = localStorage.getItem("token");
+    try {
+        const res = await fetch(BASE_URL + "/api/funding/apply/" + id, {
+            method: "POST",
+            headers: { "Authorization": "Bearer " + token }
+        });
+        
+        if(res.ok) {
+            showToast("Application submitted for " + name);
+        } else {
+            const err = await res.json();
+            showToast(err.message || "Failed to apply");
+        }
+    } catch(e) {
+        showToast("Error connecting to server");
+    }
 }

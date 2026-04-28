@@ -33,44 +33,70 @@
 
         <header class="top-header">
             <div>
-                <h1>Budget Planner</h1>
-                <p>Track income, expenses and monthly savings.</p>
+                <h1>Expense Tracker & Budgeting</h1>
+                <p>Track your income and expenses intelligently.</p>
             </div>
         </header>
 
-        <section class="grid-two">
-
-            <div class="panel">
-
-                <h3>Add Monthly Data</h3>
-
-                <input id="income" class="input" placeholder="Monthly Income">
-                <input id="expense" class="input" placeholder="Monthly Expense">
-
-                <button class="primary-action" onclick="calcBudget()">Calculate</button>
-
-                <div id="resultBox"></div>
-
+        <section class="stats-grid" id="budgetSummary">
+            <div class="stat-card">
+                <span>Total Income</span>
+                <h2 id="totalIncome">₹0</h2>
             </div>
+            <div class="stat-card">
+                <span>Total Expense</span>
+                <h2 id="totalExpense">₹0</h2>
+            </div>
+            <div class="stat-card">
+                <span>Net Savings</span>
+                <h2 id="netSavings" class="green">₹0</h2>
+            </div>
+        </section>
 
+        <section class="grid-two" style="margin-top: 20px;">
             <div class="panel">
-
-                <h3>Expense Breakdown</h3>
-
-                <div class="bar-chart small-chart">
-                    <div class="bar-wrap"><span style="height:80%"></span><small>Rent</small></div>
-                    <div class="bar-wrap"><span style="height:55%"></span><small>Food</small></div>
-                    <div class="bar-wrap"><span style="height:35%"></span><small>Travel</small></div>
-                    <div class="bar-wrap"><span style="height:25%"></span><small>Other</small></div>
+                <div class="panel-head">
+                    <h3>Add Transaction</h3>
                 </div>
+                
+                <select id="txnType" class="input">
+                    <option value="INCOME">Income</option>
+                    <option value="EXPENSE" selected>Expense</option>
+                </select>
+                
+                <input id="txnCategory" class="input" placeholder="Category (e.g. Rent, Food, Salary)">
+                <input id="txnAmount" type="number" class="input" placeholder="Amount (₹)">
+                <input id="txnDesc" class="input" placeholder="Description (Optional)">
 
+                <button class="primary-action" onclick="addTransaction()">Add Transaction</button>
+                <div id="txnMsg" style="margin-top:10px;"></div>
             </div>
 
+            <div class="panel">
+                <div class="panel-head">
+                    <h3>Recent Transactions</h3>
+                </div>
+                <div style="max-height: 300px; overflow-y: auto;">
+                    <table class="admin-table" id="txnTable">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Category</th>
+                                <th>Type</th>
+                                <th>Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody id="txnTableBody">
+                            <!-- Populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </section>
 
     </main>
 </div>
-
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="js/budget.js"></script>
 </body>
 </html>

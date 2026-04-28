@@ -70,8 +70,41 @@ window.onload = async function () {
         profileBtn.onclick = function () { window.location.href = 'profile.html'; }
     }
 
-    initChart();
-    showToast("Welcome back to MicroStart");
+    loadDashboardData();
+}
+
+async function loadDashboardData() {
+    const token = localStorage.getItem("token");
+    if (!token) return;
+
+    try {
+        // Fetch budget summary
+        const sumRes = await fetch(BASE_URL + "/api/budgets/summary", {
+            headers: { "Authorization": "Bearer " + token }
+        });
+        if (sumRes.ok) {
+            const sumData = await sumRes.json();
+            const net = (sumData.totalIncome || 0) - (sumData.totalExpense || 0);
+            document.getElementById("dashNetBalance").innerText = "₹" + net;
+            document.getElementById("dashTotalExpense").innerText = "₹" + (sumData.totalExpense || 0);
+        }
+
+        // Fetch applications count
+        const appRes = await fetch(BASE_URL + "/api/funding/applications", {
+            headers: { "Authorization": "Bearer " + token }
+        });
+        if (appRes.ok) {
+            const apps = await appRes.json();
+            document.getElementById("dashFundingCount").innerText = apps.length;
+        }
+
+        // Re-init chart based on basic data
+        initChart();
+        showToast("Welcome back to MicroStart");
+    } catch (e) {
+        console.error("Dashboard data load failed");
+        initChart();
+    }
 }
 
 function initChart() {
