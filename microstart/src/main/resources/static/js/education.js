@@ -96,6 +96,125 @@ let completedModules = new Set();
 function initEducationPlatform() {
     renderNavigation();
     loadModule(0);
+    renderCourseraCourses();
+}
+
+// Coursera Financial Education Courses
+const courseraCourses = [
+    {
+        title: "Financial Markets",
+        description: "Learn about risk management, behavioral finance, and financial regulation from Yale University.",
+        institution: "Yale University",
+        duration: "7 weeks",
+        level: "Beginner",
+        url: "https://www.coursera.org/learn/financial-markets",
+        icon: "📊"
+    },
+    {
+        title: "Personal & Family Financial Planning",
+        description: "Master personal finance basics including budgeting, saving, and investment strategies.",
+        institution: "University of Florida",
+        duration: "4 weeks",
+        level: "Beginner",
+        url: "https://www.coursera.org/learn/personal-family-financial-planning",
+        icon: "💰"
+    },
+    {
+        title: "Introduction to Finance",
+        description: "Understand the fundamentals of finance, time value of money, and risk management.",
+        institution: "University of Michigan",
+        duration: "5 weeks",
+        level: "Intermediate",
+        url: "https://www.coursera.org/learn/finance-fundamentals",
+        icon: "🎯"
+    },
+    {
+        title: "FinTech: Foundations, Payments, and Regulations",
+        description: "Explore the world of financial technology, digital payments, and regulatory frameworks.",
+        institution: "University of Pennsylvania",
+        duration: "4 weeks",
+        level: "Intermediate",
+        url: "https://www.coursera.org/learn/fintech-foundations-payments-regulations",
+        icon: "🔗"
+    },
+    {
+        title: "Blockchain and Business",
+        description: "Learn how blockchain technology is transforming financial services and business operations.",
+        institution: "INSEAD",
+        duration: "4 weeks",
+        level: "Advanced",
+        url: "https://www.coursera.org/learn/blockchain-business",
+        icon: "⛓️"
+    },
+    {
+        title: "Investment and Portfolio Management",
+        description: "Develop skills in portfolio construction, risk assessment, and investment strategies.",
+        institution: "University of Geneva",
+        duration: "6 weeks",
+        level: "Advanced",
+        url: "https://www.coursera.org/learn/investment-portfolio-management",
+        icon: "📈"
+    },
+    {
+        title: "Machine Learning for Trading",
+        description: "Apply machine learning techniques to financial markets and trading strategies.",
+        institution: "Georgia Institute of Technology",
+        duration: "8 weeks",
+        level: "Advanced",
+        url: "https://www.coursera.org/learn/machine-learning-trading",
+        icon: "🤖"
+    },
+    {
+        title: "Digital Transformation in Financial Services",
+        description: "Understand how digital transformation is reshaping the financial services industry.",
+        institution: "University of Illinois",
+        duration: "5 weeks",
+        level: "Intermediate",
+        url: "https://www.coursera.org/learn/digital-transformation-financial-services",
+        icon: "💻"
+    }
+];
+
+function renderCourseraCourses() {
+    const grid = document.getElementById('courseraGrid');
+    let html = '';
+    
+    courseraCourses.forEach(course => {
+        html += `
+            <a href="${course.url}" target="_blank" class="coursera-card">
+                <div class="coursera-badge">Coursera</div>
+                <div class="coursera-card-icon">${course.icon}</div>
+                <h3>${course.title}</h3>
+                <p>${course.description}</p>
+                <div class="coursera-card-meta">
+                    <span> ${course.institution}</span>
+                    <span> ${course.duration}</span>
+                    <span> ${course.level}</span>
+                </div>
+            </a>
+        `;
+    });
+    
+    grid.innerHTML = html;
+}
+
+function switchTab(tab) {
+    const internalSection = document.getElementById('internalSection');
+    const courseraSection = document.getElementById('courseraSection');
+    const internalTab = document.getElementById('internalTab');
+    const courseraTab = document.getElementById('courseraTab');
+    
+    if (tab === 'internal') {
+        internalSection.style.display = 'flex';
+        courseraSection.style.display = 'none';
+        internalTab.classList.add('active');
+        courseraTab.classList.remove('active');
+    } else {
+        internalSection.style.display = 'none';
+        courseraSection.style.display = 'flex';
+        internalTab.classList.remove('active');
+        courseraTab.classList.add('active');
+    }
 }
 
 function renderNavigation() {
