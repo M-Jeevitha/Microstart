@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <title>Budgeting | MicroStart</title>
     <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/budget-enhanced.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 
@@ -33,70 +38,164 @@
 
         <header class="top-header">
             <div>
-                <h1>Expense Tracker & Budgeting</h1>
-                <p>Track your income and expenses intelligently.</p>
+                <h1>Expense Tracker</h1>
+                <p>Manage your finances like a pro</p>
+            </div>
+            <div class="header-actions">
+                <button class="icon-btn" onclick="openAddModal()">➕</button>
+                <button class="icon-btn" onclick="togglePeriodFilter()">📅</button>
             </div>
         </header>
 
-        <section class="stats-grid" id="budgetSummary">
-            <div class="stat-card">
-                <span>Total Income</span>
-                <h2 id="totalIncome">₹0</h2>
+        <!-- Balance Cards -->
+        <section class="balance-cards">
+            <div class="balance-card main-balance">
+                <div class="balance-icon">💰</div>
+                <div class="balance-info">
+                    <span>Total Balance</span>
+                    <h2 id="totalBalance">₹0</h2>
+                </div>
             </div>
-            <div class="stat-card">
-                <span>Total Expense</span>
-                <h2 id="totalExpense">₹0</h2>
+            <div class="balance-card income-card">
+                <div class="balance-icon">📈</div>
+                <div class="balance-info">
+                    <span>Income</span>
+                    <h2 id="totalIncome">₹0</h2>
+                </div>
             </div>
-            <div class="stat-card">
-                <span>Net Savings</span>
-                <h2 id="netSavings" class="green">₹0</h2>
+            <div class="balance-card expense-card">
+                <div class="balance-icon">📉</div>
+                <div class="balance-info">
+                    <span>Expenses</span>
+                    <h2 id="totalExpense">₹0</h2>
+                </div>
             </div>
         </section>
 
-        <section class="grid-two" style="margin-top: 20px;">
-            <div class="panel">
-                <div class="panel-head">
-                    <h3>Add Transaction</h3>
+        <!-- Charts Section -->
+        <section class="charts-section">
+            <div class="chart-container">
+                <div class="panel">
+                    <div class="panel-head">
+                        <h3>Spending by Category</h3>
+                        <select id="chartPeriod" class="mini-select" onchange="updateCharts()">
+                            <option value="all">All Time</option>
+                            <option value="month">This Month</option>
+                            <option value="week">This Week</option>
+                        </select>
+                    </div>
+                    <div class="chart-wrapper">
+                        <canvas id="categoryChart"></canvas>
+                    </div>
                 </div>
-                
-                <select id="txnType" class="input">
-                    <option value="INCOME">Income</option>
-                    <option value="EXPENSE" selected>Expense</option>
-                </select>
-                
-                <input id="txnCategory" class="input" placeholder="Category (e.g. Rent, Food, Salary)">
-                <input id="txnAmount" type="number" class="input" placeholder="Amount (₹)">
-                <input id="txnDesc" class="input" placeholder="Description (Optional)">
-
-                <button class="primary-action" onclick="addTransaction()">Add Transaction</button>
-                <div id="txnMsg" style="margin-top:10px;"></div>
             </div>
+            <div class="chart-container">
+                <div class="panel">
+                    <div class="panel-head">
+                        <h3>Income vs Expenses</h3>
+                    </div>
+                    <div class="chart-wrapper">
+                        <canvas id="incomeExpenseChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
 
+        <!-- Budget Categories -->
+        <section class="budget-section">
             <div class="panel">
                 <div class="panel-head">
-                    <h3>Recent Transactions</h3>
+                    <h3>Budget Categories</h3>
+                    <button class="mini-btn" onclick="openBudgetModal()">+ Add Budget</button>
                 </div>
-                <div style="max-height: 300px; overflow-y: auto;">
-                    <table class="admin-table" id="txnTable">
-                        <thead>
-                            <tr>
-                                <th>Date</th>
-                                <th>Category</th>
-                                <th>Type</th>
-                                <th>Amount</th>
-                            </tr>
-                        </thead>
-                        <tbody id="txnTableBody">
-                            <!-- Populated by JS -->
-                        </tbody>
-                    </table>
+                <div class="budget-categories" id="budgetCategories">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Transactions Section -->
+        <section class="transactions-section">
+            <div class="panel">
+                <div class="panel-head">
+                    <h3>Transactions</h3>
+                    <div class="filter-actions">
+                        <input type="text" id="searchInput" class="search-input" placeholder="Search transactions..." onkeyup="filterTransactions()">
+                        <select id="typeFilter" class="mini-select" onchange="filterTransactions()">
+                            <option value="all">All Types</option>
+                            <option value="INCOME">Income</option>
+                            <option value="EXPENSE">Expense</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="transactions-list" id="transactionsList">
+                    <!-- Populated by JS -->
                 </div>
             </div>
         </section>
 
     </main>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="js/budget.js"></script>
+
+<!-- Add Transaction Modal -->
+<div class="modal" id="addModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Add Transaction</h3>
+            <button class="close-btn" onclick="closeAddModal()">✕</button>
+        </div>
+        <div class="modal-body">
+            <div class="type-toggle">
+                <button class="type-btn active" data-type="EXPENSE" onclick="setTransactionType('EXPENSE')">Expense</button>
+                <button class="type-btn" data-type="INCOME" onclick="setTransactionType('INCOME')">Income</button>
+            </div>
+            <input type="hidden" id="modalTxnType" value="EXPENSE">
+            
+            <div class="category-grid" id="categoryGrid">
+                <button class="category-btn" data-category="Food" onclick="selectCategory('Food')">🍔 Food</button>
+                <button class="category-btn" data-category="Transport" onclick="selectCategory('Transport')">🚗 Transport</button>
+                <button class="category-btn" data-category="Shopping" onclick="selectCategory('Shopping')">🛒 Shopping</button>
+                <button class="category-btn" data-category="Bills" onclick="selectCategory('Bills')">💡 Bills</button>
+                <button class="category-btn" data-category="Entertainment" onclick="selectCategory('Entertainment')">🎬 Entertainment</button>
+                <button class="category-btn" data-category="Health" onclick="selectCategory('Health')">🏥 Health</button>
+                <button class="category-btn" data-category="Salary" onclick="selectCategory('Salary')">💼 Salary</button>
+                <button class="category-btn" data-category="Investment" onclick="selectCategory('Investment')">📈 Investment</button>
+                <button class="category-btn" data-category="Other" onclick="selectCategory('Other')">📦 Other</button>
+            </div>
+            <input type="hidden" id="selectedCategory" value="">
+            
+            <input type="number" id="modalAmount" class="input" placeholder="Amount (₹)" step="0.01">
+            <input type="text" id="modalDesc" class="input" placeholder="Description (Optional)">
+            <input type="date" id="modalDate" class="input">
+            
+            <button class="primary-action" onclick="submitTransaction()">Add Transaction</button>
+        </div>
+    </div>
+</div>
+
+<!-- Budget Modal -->
+<div class="modal" id="budgetModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Set Budget Limit</h3>
+            <button class="close-btn" onclick="closeBudgetModal()">✕</button>
+        </div>
+        <div class="modal-body">
+            <select id="budgetCategory" class="input">
+                <option value="Food">Food</option>
+                <option value="Transport">Transport</option>
+                <option value="Shopping">Shopping</option>
+                <option value="Bills">Bills</option>
+                <option value="Entertainment">Entertainment</option>
+                <option value="Health">Health</option>
+                <option value="Other">Other</option>
+            </select>
+            <input type="number" id="budgetLimit" class="input" placeholder="Monthly Limit (₹)" step="0.01">
+            <button class="primary-action" onclick="submitBudget()">Set Budget</button>
+        </div>
+    </div>
+</div>
+
+<script src="js/budget-enhanced.js"></script>
 </body>
 </html>
