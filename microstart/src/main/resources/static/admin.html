@@ -274,48 +274,128 @@
 
         <!-- 3. Funding Management Tab -->
         <div id="fundingTab" class="tab-content">
-            <section class="grid-two">
-                <div class="panel">
-                    <div class="panel-head">
-                        <h3>Create Microloan / Scheme</h3>
-                    </div>
-                    <input id="fundName" class="input" placeholder="Program Name (e.g. MSME Tech Grant)">
-                    <input id="fundType" class="input" placeholder="Type (Loan, Grant, Scheme)">
-                    <input id="fundAmount" class="input" placeholder="Maximum Amount Limit">
-                    <textarea class="input" placeholder="Eligibility Criteria..." rows="3"></textarea>
-                    
-                    <button class="primary-action" onclick="addFunding()">Publish Program</button>
-                    <div id="adminMsg" style="margin-top:18px;"></div>
-                </div>
+            <div class="admin-nav" style="margin-bottom: 20px;">
+                <button class="active" onclick="switchFundingSubTab('programs')" id="programsSubTab">Programs</button>
+                <button onclick="switchFundingSubTab('bidding')" id="biddingSubTab">💰 Bid on Ideas</button>
+                <button onclick="switchFundingSubTab('applications')" id="applicationsSubTab">Applications</button>
+            </div>
 
+            <!-- Programs Sub-tab -->
+            <div id="programsSubContent" class="funding-sub-content">
+                <section class="grid-two">
+                    <div class="panel">
+                        <div class="panel-head">
+                            <h3>Create Microloan / Scheme</h3>
+                        </div>
+                        <input id="fundName" class="input" placeholder="Program Name (e.g. MSME Tech Grant)">
+                        <input id="fundType" class="input" placeholder="Type (Loan, Grant, Scheme)">
+                        <input id="fundAmount" class="input" placeholder="Maximum Amount Limit">
+                        <textarea class="input" placeholder="Eligibility Criteria..." rows="3"></textarea>
+                        
+                        <button class="primary-action" onclick="addFunding()">Publish Program</button>
+                        <div id="adminMsg" style="margin-top:18px;"></div>
+                    </div>
+
+                    <div class="panel">
+                        <div class="panel-head">
+                            <h3>Active Programs</h3>
+                        </div>
+                        <table class="admin-table">
+                            <tr>
+                                <th>Program</th>
+                                <th>Cap</th>
+                                <th>Status</th>
+                            </tr>
+                            <tr>
+                                <td>Women Startup Grant</td>
+                                <td>₹2,00,000</td>
+                                <td><span class="pill-green">Active</span></td>
+                            </tr>
+                            <tr>
+                                <td>Rural Agri-Loan</td>
+                                <td>₹50,000</td>
+                                <td><span class="pill-green">Active</span></td>
+                            </tr>
+                            <tr>
+                                <td>Tech Innovator Scheme</td>
+                                <td>₹10,00,000</td>
+                                <td><span class="pill-red">Closed</span></td>
+                            </tr>
+                        </table>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Bidding Sub-tab -->
+            <div id="biddingSubContent" class="funding-sub-content" style="display: none;">
+                <section class="panel">
+                    <div class="panel-head">
+                        <h3>Open Ideas for Bidding</h3>
+                        <button class="primary-action" style="padding: 8px 15px; font-size: 13px;" onclick="loadOpenIdeas()">🔄 Refresh</button>
+                    </div>
+                    <div id="ideasBiddingGrid" class="grid-three" style="margin-top: 20px;">
+                        <p style="color:var(--muted);">Loading open ideas...</p>
+                    </div>
+                </section>
+
+                <section class="panel" style="margin-top: 20px;">
+                    <div class="panel-head">
+                        <h3>My Bids</h3>
+                    </div>
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Idea</th>
+                                <th>My Bid</th>
+                                <th>Status</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody id="myBidsTable">
+                            <tr>
+                                <td colspan="4" style="text-align: center; color: var(--muted);">Loading your bids...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </section>
+            </div>
+
+            <!-- Applications Sub-tab -->
+            <div id="applicationsSubContent" class="funding-sub-content" style="display: none;">
                 <div class="panel">
                     <div class="panel-head">
-                        <h3>Active Programs</h3>
+                        <h3>Funding Applications</h3>
                     </div>
                     <table class="admin-table">
                         <tr>
+                            <th>ID</th>
+                            <th>User</th>
                             <th>Program</th>
-                            <th>Cap</th>
                             <th>Status</th>
+                            <th>Actions</th>
                         </tr>
                         <tr>
+                            <td>#FA001</td>
+                            <td>Rahul Kumar</td>
                             <td>Women Startup Grant</td>
-                            <td>₹2,00,000</td>
-                            <td><span class="pill-green">Active</span></td>
+                            <td><span class="pill-yellow">Pending</span></td>
+                            <td>
+                                <button class="action-sm" style="color: #10b981;">Approve</button>
+                                <button class="action-sm" style="color: #ef4444;">Reject</button>
+                            </td>
                         </tr>
                         <tr>
+                            <td>#FA002</td>
+                            <td>Priya Singh</td>
                             <td>Rural Agri-Loan</td>
-                            <td>₹50,000</td>
-                            <td><span class="pill-green">Active</span></td>
-                        </tr>
-                        <tr>
-                            <td>Tech Innovator Scheme</td>
-                            <td>₹10,00,000</td>
-                            <td><span class="pill-red">Closed</span></td>
+                            <td><span class="pill-green">Approved</span></td>
+                            <td>
+                                <button class="action-sm">View Details</button>
+                            </td>
                         </tr>
                     </table>
                 </div>
-            </section>
+            </div>
         </div>
 
         <!-- 4. Content Management Tab -->

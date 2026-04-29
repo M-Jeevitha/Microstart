@@ -36,36 +36,132 @@
         <header class="top-header">
             <div>
                 <h1>Funding Opportunities</h1>
-                <p>Search and apply for loans, grants and startup capital.</p>
+                <p>Submit your startup ideas and get funding from investors.</p>
             </div>
         </header>
 
-        <section class="panel">
+        <!-- Tab Navigation -->
+        <div style="padding: 15px 30px; border-bottom: 1px solid var(--glass-border); display: flex; gap: 10px;">
+            <button class="course-tab active" onclick="switchTab('submit')" id="submitTab">
+                💡 Submit Idea
+            </button>
+            <button class="course-tab" onclick="switchTab('my-ideas')" id="myIdeasTab">
+                📋 My Ideas
+            </button>
+            <button class="course-tab" onclick="switchTab('programs')" id="programsTab">
+                🎯 Funding Programs
+            </button>
+        </div>
 
-            <div class="panel-head">
-                <h3>Search Programs</h3>
-            </div>
+        <!-- Submit Idea Section -->
+        <div id="submitSection" style="padding: 30px;">
+            <section class="panel">
+                <div class="panel-head">
+                    <h3>Submit Your Startup Idea</h3>
+                </div>
 
-            <div class="action-grid">
-                <input type="text" id="searchFund" placeholder="Search funding..." class="input">
-                <select class="input">
-                    <option>All Types</option>
-                    <option>Loan</option>
-                    <option>Grant</option>
-                    <option>Startup</option>
+                <input type="text" id="ideaTitle" class="input" placeholder="Idea Title" style="margin-bottom: 15px;">
+                <textarea id="ideaDescription" class="input" placeholder="Describe your idea in detail..." rows="5" style="margin-bottom: 15px; resize: vertical;"></textarea>
+                
+                <select id="ideaCategory" class="input" style="margin-bottom: 15px;">
+                    <option value="">Select Category</option>
+                    <option value="Technology">Technology</option>
+                    <option value="Healthcare">Healthcare</option>
+                    <option value="Education">Education</option>
+                    <option value="Finance">Finance</option>
+                    <option value="E-commerce">E-commerce</option>
+                    <option value="Agriculture">Agriculture</option>
+                    <option value="Other">Other</option>
                 </select>
-            </div>
 
-        </section>
+                <input type="number" id="ideaAmount" class="input" placeholder="Requested Funding Amount (₹)" step="1000" style="margin-bottom: 15px;">
 
-        <section class="stats-grid" id="fundingGrid">
-            <p style="color:var(--muted);">Loading available funding programs...</p>
-        </section>
+                <button class="primary-action" onclick="submitIdea()">Submit Idea for Bidding</button>
+                <div id="ideaMsg" style="margin-top: 15px;"></div>
+            </section>
+        </div>
+
+        <!-- My Ideas Section -->
+        <div id="myIdeasSection" style="padding: 30px; display: none;">
+            <section class="panel">
+                <div class="panel-head">
+                    <h3>My Submitted Ideas</h3>
+                </div>
+                <div id="myIdeasGrid" class="stats-grid">
+                    <p style="color:var(--muted);">Loading your ideas...</p>
+                </div>
+            </section>
+        </div>
+
+        <!-- Funding Programs Section -->
+        <div id="programsSection" style="padding: 30px; display: none;">
+            <section class="panel">
+                <div class="panel-head">
+                    <h3>Search Programs</h3>
+                </div>
+
+                <div class="action-grid">
+                    <input type="text" id="searchFund" placeholder="Search funding..." class="input">
+                    <select class="input">
+                        <option>All Types</option>
+                        <option>Loan</option>
+                        <option>Grant</option>
+                        <option>Startup</option>
+                    </select>
+                </div>
+            </section>
+
+            <section class="stats-grid" id="fundingGrid" style="margin-top: 20px;">
+                <p style="color:var(--muted);">Loading available funding programs...</p>
+            </section>
+        </div>
 
         <div class="toast" id="toast"></div>
 
     </main>
 </div>
+
+<style>
+    .course-tab {
+        padding: 12px 24px;
+        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid var(--glass-border);
+        color: var(--muted);
+        font-weight: 600;
+        cursor: pointer;
+        transition: .3s;
+        font-size: 14px;
+    }
+    .course-tab:hover {
+        background: rgba(255, 255, 255, 0.1);
+        color: #fff;
+    }
+    .course-tab.active {
+        background: linear-gradient(135deg, var(--primary), var(--primary2));
+        border-color: transparent;
+        color: #fff;
+        box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);
+    }
+    .idea-card {
+        background: var(--glass-bg);
+        border: 1px solid var(--glass-border);
+        border-radius: 16px;
+        padding: 20px;
+        transition: .3s;
+    }
+    .idea-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+    }
+    .bid-info {
+        background: rgba(139, 92, 246, 0.1);
+        border: 1px solid rgba(139, 92, 246, 0.3);
+        border-radius: 8px;
+        padding: 10px 15px;
+        margin-top: 15px;
+    }
+</style>
 
 <script src="js/funding.js"></script>
 </body>
