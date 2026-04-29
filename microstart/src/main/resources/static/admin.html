@@ -365,34 +365,23 @@
                 <div class="panel">
                     <div class="panel-head">
                         <h3>Funding Applications</h3>
+                        <button class="primary-action" style="padding: 8px 15px; font-size: 13px;" onclick="loadFundingApplications()">🔄 Refresh</button>
                     </div>
                     <table class="admin-table">
-                        <tr>
-                            <th>ID</th>
-                            <th>User</th>
-                            <th>Program</th>
-                            <th>Status</th>
-                            <th>Actions</th>
-                        </tr>
-                        <tr>
-                            <td>#FA001</td>
-                            <td>Rahul Kumar</td>
-                            <td>Women Startup Grant</td>
-                            <td><span class="pill-yellow">Pending</span></td>
-                            <td>
-                                <button class="action-sm" style="color: #10b981;">Approve</button>
-                                <button class="action-sm" style="color: #ef4444;">Reject</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>#FA002</td>
-                            <td>Priya Singh</td>
-                            <td>Rural Agri-Loan</td>
-                            <td><span class="pill-green">Approved</span></td>
-                            <td>
-                                <button class="action-sm">View Details</button>
-                            </td>
-                        </tr>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>User</th>
+                                <th>Program</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="fundingApplicationsTable">
+                            <tr>
+                                <td colspan="5" style="text-align: center; color: var(--muted);">Loading applications...</td>
+                            </tr>
+                        </tbody>
                     </table>
                 </div>
             </div>

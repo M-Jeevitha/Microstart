@@ -46,7 +46,15 @@ function showToast(msg){
 // Tab switching
 function switchTab(tab) {
     document.querySelectorAll('.course-tab').forEach(t => t.classList.remove('active'));
-    document.getElementById(tab + 'Tab').classList.add('active');
+    
+    // Map tab names to button IDs
+    const tabButtonId = tab === 'submit' ? 'submitTab' : 
+                        tab === 'my-ideas' ? 'myIdeasTab' : 
+                        tab === 'programs' ? 'programsTab' : '';
+    
+    if (tabButtonId) {
+        document.getElementById(tabButtonId).classList.add('active');
+    }
     
     document.getElementById('submitSection').style.display = tab === 'submit' ? 'block' : 'none';
     document.getElementById('myIdeasSection').style.display = tab === 'my-ideas' ? 'block' : 'none';

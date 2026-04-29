@@ -98,12 +98,96 @@ async function loadDashboardData() {
             document.getElementById("dashFundingCount").innerText = apps.length;
         }
 
+        // Load notifications
+        loadNotifications();
+
         // Re-init chart based on basic data
         initChart();
         showToast("Welcome back to MicroStart");
     } catch (e) {
         console.error("Dashboard data load failed");
         initChart();
+    }
+}
+
+// Load notifications
+async function loadNotifications() {
+    const token = localStorage.getItem("token");
+    try {
+        // Get unread count
+        const countRes = await fetch(BASE_URL + "/api/notifications/unread-count", {
+            headers: { "Authorization": "Bearer " + token }
+        });
+        if (countRes.ok) {
+            const countData = await countRes.json();
+            const badge = document.getElementById("notificationBadge");
+            if (badge) {
+                badge.textContent = countData.count || 0;
+                badge.style.display = countData.count > 0 ? "inline-block" : "none";
+            }
+        }
+
+        // Get notifications list
+        const notifRes = await fetch(BASE_URL + "/api/notifications", {
+            headers: { "Authorization": "Bearer " + token }
+        });
+        if (notifRes.ok) {
+            const notifications = await notifRes.json();
+            const list = document.getElementById("notificationsList");
+            
+            if (notifications.length === 0) {
+                list.innerHTML = "<p style='color:var(--muted); font-size:13px;'>No notifications</p>";
+                return;
+            }
+
+            let html = "";
+            notifications.forEach(notif => {
+                const typeColor = notif.type === 'SUCCESS' ? 'green' : 
+                                   notif.type === 'ERROR' ? 'red' : 
+                                   notif.type === 'WARNING' ? 'yellow' : 'blue';
+                html += `
+                <div style="padding:12px; border-bottom:1px solid var(--glass-border); ${notif.read ? 'opacity:0.6;' : ''}" onclick="markAsRead(${notif.id})">
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <span style="font-weight:600; color:#fff; font-size:13px;">${notif.title}</span>
+                        <span class="${typeColor}" style="font-size:10px; padding:2px 6px; border-radius:4px;">${notif.type}</span>
+                    </div>
+                    <p style="color:var(--muted); font-size:12px; margin-top:4px;">${notif.message}</p>
+                    <small style="color:var(--muted); font-size:11px;">${new Date(notif.createdAt).toLocaleString()}</small>
+                </div>
+                `;
+            });
+            list.innerHTML = html;
+        }
+    } catch (e) {
+        console.error("Failed to load notifications");
+    }
+}
+
+// Mark notification as read
+async function markAsRead(notifId) {
+    const token = localStorage.getItem("token");
+    try {
+        await fetch(BASE_URL + `/api/notifications/${notifId}/read`, {
+            method: "PUT",
+            headers: { "Authorization": "Bearer " + token }
+        });
+        loadNotifications();
+    } catch (e) {
+        console.error("Failed to mark notification as read");
+    }
+}
+
+// Mark all notifications as read
+async function markAllRead() {
+    const token = localStorage.getItem("token");
+    try {
+        await fetch(BASE_URL + "/api/notifications/read-all", {
+            method: "PUT",
+            headers: { "Authorization": "Bearer " + token }
+        });
+        loadNotifications();
+    } catch (e) {
+        console.error("Failed to mark all notifications as read");
     }
 }
 

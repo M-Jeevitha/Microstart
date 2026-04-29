@@ -65,6 +65,44 @@ public class AuthController {
                 ));
     }
 
+    // ✅ ADMIN REGISTER API
+    @PostMapping("/admin/register")
+    public ResponseEntity<?> adminRegister(@RequestBody Map<String, String> request) {
+        String fullName = request.get("fullName");
+        String email = request.get("email");
+        String password = request.get("password");
+        String adminCode = request.get("adminCode");
+
+        // Validate admin verification code
+        String VALID_ADMIN_CODE = "ADMIN2024"; // In production, this should be in config or database
+        
+        if (!VALID_ADMIN_CODE.equals(adminCode)) {
+            return ResponseEntity.badRequest().body(Map.of("error", "Invalid admin verification code"));
+        }
+
+        // Check if user already exists
+        if (userRepository.existsByEmail(email)) {
+            return ResponseEntity.badRequest().body(Map.of("error", "Email already registered"));
+        }
+
+        // Create admin user
+        User admin = User.builder()
+                .fullName(fullName)
+                .email(email)
+                .password(passwordEncoder.encode(password))
+                .role("ROLE_ADMIN")
+                .build();
+
+        userRepository.save(admin);
+
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(Map.of(
+                        "message", "Admin registered successfully",
+                        "fullName", fullName,
+                        "email", email
+                ));
+    }
+
     // ✅ LOGIN API (EMAIL BASED — FINAL FIX)
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest request) {

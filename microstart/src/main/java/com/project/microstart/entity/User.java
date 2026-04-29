@@ -31,7 +31,12 @@ public class User implements UserDetails {
 
     private String role;
 
-    // 🔐 SPRING SECURITY METHODS
+    private String phone;
+    private String pan;
+    private String aadhar;
+    private String incomeRange;
+
+    // SPRING SECURITY METHODS
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

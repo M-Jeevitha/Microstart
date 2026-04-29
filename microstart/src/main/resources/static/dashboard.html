@@ -57,14 +57,17 @@
 
                 <button class="icon-btn" onclick="toggleNotifications()">
                     🔔
-                    <span class="badge">3</span>
+                    <span class="badge" id="notificationBadge">0</span>
                 </button>
 
                 <div class="notify-panel" id="notifyPanel">
-                    <h4>Notifications</h4>
-                    <p>Loan application approved</p>
-                    <p>Budget report ready</p>
-                    <p>New education lesson added</p>
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+                        <h4>Notifications</h4>
+                        <button class="action-sm" style="font-size:11px;" onclick="markAllRead()">Mark all read</button>
+                    </div>
+                    <div id="notificationsList">
+                        <p style="color:var(--muted); font-size:13px;">Loading notifications...</p>
+                    </div>
                 </div>
 
                 <button class="profile-btn">
