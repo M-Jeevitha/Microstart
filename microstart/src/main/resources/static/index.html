@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <title>MicroStart | Financial Inclusion Platform</title>
-    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/main.css?v=4">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -23,11 +23,11 @@
         </div>
 
         <nav class="menu">
+            <a href="#" class="active">Home</a>
+            <a href="#about">About Us</a>
             <a href="#features">Features</a>
-            <a href="#testimonials">Reviews</a>
-            <a href="#pricing">Pricing</a>
             <a href="login.html">Login</a>
-            <a href="register.html" class="btn btn-outline">Get Started</a>
+            <a href="register.html" class="btn btn-outline">Sign Up</a>
         </nav>
 
         <div class="mobile-toggle" onclick="toggleMenu()">☰</div>
@@ -123,6 +123,47 @@
 
 </section>
 
+<section id="about" class="section container">
+
+    <div class="section-head reveal">
+        <h2>About MicroStart</h2>
+        <p>Empowering communities through financial inclusion and digital innovation</p>
+    </div>
+
+    <div class="about-content reveal">
+        <div class="about-text card">
+            <h3>Our Mission</h3>
+            <p>MicroStart is dedicated to providing accessible financial tools and resources to individuals, startups, and underserved communities. We believe that everyone deserves access to funding, budgeting tools, and financial education to build a better future.</p>
+            
+            <h3>What We Do</h3>
+            <p>We offer a comprehensive digital platform that combines funding opportunities, budget management, financial education, and admin tools in one secure ecosystem. Our platform helps users track their financial journey, apply for loans and grants, and build financial literacy through interactive learning modules.</p>
+            
+            <h3>Our Vision</h3>
+            <p>To create a world where financial tools are accessible to everyone, regardless of background or location. We aim to bridge the gap between traditional finance and digital innovation, making financial empowerment a reality for all.</p>
+        </div>
+
+        <div class="about-stats">
+            <div class="stat-card card reveal">
+                <h3>10+</h3>
+                <span>Funding Programs</span>
+            </div>
+            <div class="stat-card card reveal">
+                <h3>8</h3>
+                <span>Core Features</span>
+            </div>
+            <div class="stat-card card reveal">
+                <h3>24/7</h3>
+                <span>Platform Access</span>
+            </div>
+            <div class="stat-card card reveal">
+                <h3>100%</h3>
+                <span>Secure & Private</span>
+            </div>
+        </div>
+    </div>
+
+</section>
+
 <section id="features" class="section container">
 
     <div class="section-head reveal">
@@ -130,100 +171,54 @@
         <p>Designed with a unified system for users, entrepreneurs and administrators.</p>
     </div>
 
-    <div class="feature-grid">
+    <div class="feature-grid-4">
 
         <div class="feature card reveal">
+            <div class="feature-icon">💰</div>
             <h3>Smart Funding</h3>
-            <p>Apply for loans and grants with guided workflows and eligibility support.</p>
+            <p>Apply for microloans, grants and schemes with guided workflows and eligibility support. Track applications in real-time.</p>
         </div>
 
         <div class="feature card reveal">
-            <h3>Application Tracking</h3>
-            <p>Monitor progress with real-time timelines and status updates.</p>
-        </div>
-
-        <div class="feature card reveal">
+            <div class="feature-icon">📊</div>
             <h3>Budget Planner</h3>
-            <p>Track income, expenses and savings with charts and reports.</p>
+            <p>Track income, expenses and savings with interactive charts and reports. Set financial goals and monitor progress.</p>
         </div>
 
         <div class="feature card reveal">
+            <div class="feature-icon">🎓</div>
             <h3>Learning Center</h3>
-            <p>Interactive lessons, quizzes and achievement badges.</p>
+            <p>Interactive financial education lessons, gamified quizzes and achievement badges to build financial literacy.</p>
         </div>
 
         <div class="feature card reveal">
-            <h3>Admin Control</h3>
-            <p>Manage users, funding programs and content efficiently.</p>
-        </div>
-
-        <div class="feature card reveal">
+            <div class="feature-icon">🔔</div>
             <h3>Instant Alerts</h3>
-            <p>Stay informed with reminders, approvals and secure notifications.</p>
+            <p>Stay informed with real-time notifications for application approvals, new funding opportunities and important updates.</p>
         </div>
 
-    </div>
-
-</section>
-
-<section id="testimonials" class="section container">
-
-    <div class="section-head reveal">
-        <h2>Trusted by Growing Communities</h2>
-    </div>
-
-    <div class="testimonial-grid">
-
-        <div class="testimonial card reveal">
-            <p>“MicroStart helped me secure my first business loan in days.”</p>
-            <h4>Priya S.</h4>
-            <span>Small Business Owner</span>
+        <div class="feature card reveal">
+            <div class="feature-icon">💡</div>
+            <h3>Idea Bidding</h3>
+            <p>Entrepreneurs can submit startup ideas for investor bidding. Admins review and bid on promising ventures.</p>
         </div>
 
-        <div class="testimonial card reveal">
-            <p>“The budgeting tools made managing monthly expenses effortless.”</p>
-            <h4>Rahul K.</h4>
-            <span>Freelancer</span>
+        <div class="feature card reveal">
+            <div class="feature-icon">📈</div>
+            <h3>Financial Tools</h3>
+            <p>Complete expense management, income tracking, savings goals and financial health monitoring tools.</p>
         </div>
 
-        <div class="testimonial card reveal">
-            <p>“A clean and professional platform for financial growth.”</p>
-            <h4>Anita M.</h4>
-            <span>Startup Founder</span>
+        <div class="feature card reveal">
+            <div class="feature-icon">🛡️</div>
+            <h3>Admin Control</h3>
+            <p>Comprehensive admin dashboard to manage users, funding programs, content, and monitor platform analytics.</p>
         </div>
 
-    </div>
-
-</section>
-
-<section id="pricing" class="section container">
-
-    <div class="section-head reveal">
-        <h2>Simple Pricing</h2>
-        <p>Start free and upgrade as you grow.</p>
-    </div>
-
-    <div class="pricing-grid">
-
-        <div class="price-card card reveal">
-            <h3>Starter</h3>
-            <h1>Free</h1>
-            <p>Budgeting + Education + Basic Tracking</p>
-            <a href="register.html" class="btn full">Choose Plan</a>
-        </div>
-
-        <div class="price-card card featured reveal">
-            <h3>Growth</h3>
-            <h1>₹499/mo</h1>
-            <p>Funding tools + Reports + Priority Support</p>
-            <a href="register.html" class="btn full">Choose Plan</a>
-        </div>
-
-        <div class="price-card card reveal">
-            <h3>Enterprise</h3>
-            <h1>Custom</h1>
-            <p>Admin suite + Teams + Integrations</p>
-            <a href="register.html" class="btn full">Contact Sales</a>
+        <div class="feature card reveal">
+            <div class="feature-icon">🔐</div>
+            <h3>Secure & Private</h3>
+            <p>JWT-based authentication, role-based access control and encrypted data storage for complete security.</p>
         </div>
 
     </div>
@@ -249,6 +244,6 @@
     </div>
 </footer>
 
-<script src="js/main.js"></script>
+<script src="js/main.js?v=2"></script>
 </body>
 </html>

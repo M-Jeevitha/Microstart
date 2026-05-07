@@ -168,6 +168,8 @@ function switchTab(tabId) {
         loadUsers();
     } else if (tabId === 'dashboardTab') {
         loadDashboardStats();
+    } else if (tabId === 'contentTab') {
+        loadCourses();
     }
 }
 
@@ -454,5 +456,365 @@ async function rejectApplication(appId) {
         }
     } catch(e) {
         showToast("Error connecting to server");
+    }
+}
+
+// Content sub-tab switching
+function switchContentSubTab(tab) {
+    document.querySelectorAll('#contentTab .admin-nav button').forEach(btn => btn.classList.remove('active'));
+    document.getElementById(tab + 'SubTab').classList.add('active');
+    
+    document.getElementById('coursesSubContent').style.display = tab === 'courses' ? 'block' : 'none';
+    document.getElementById('lessonsSubContent').style.display = tab === 'lessons' ? 'block' : 'none';
+    document.getElementById('quizzesSubContent').style.display = tab === 'quizzes' ? 'block' : 'none';
+    
+    if (tab === 'courses') {
+        loadCourses();
+    } else if (tab === 'lessons') {
+        loadCoursesForSelect();
+        loadLessons();
+    } else if (tab === 'quizzes') {
+        loadLessonsForSelect();
+        loadQuizzes();
+    }
+}
+
+// Add course
+async function addCourse() {
+    const token = localStorage.getItem("token");
+    const title = document.getElementById("courseTitle").value.trim();
+    const description = document.getElementById("courseDescription").value.trim();
+    const level = document.getElementById("courseLevel").value.trim();
+    
+    if (!title || !description || !level) {
+        document.getElementById("courseMsg").innerHTML = "<div style='color:#ef4444; font-weight:600;'>Fill all fields</div>";
+        return;
+    }
+    
+    try {
+        const res = await fetch("/api/admin/education/course", {
+            method: "POST",
+            headers: {
+                "Authorization": "Bearer " + token,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                title: title,
+                description: description,
+                level: level
+            })
+        });
+        
+        if (res.ok) {
+            document.getElementById("courseMsg").innerHTML = "<div style='color:#10b981; font-weight:600;'>Course created successfully!</div>";
+            document.getElementById("courseTitle").value = "";
+            document.getElementById("courseDescription").value = "";
+            document.getElementById("courseLevel").value = "";
+            loadCourses();
+            showToast("Course created successfully!");
+        } else {
+            const err = await res.json();
+            document.getElementById("courseMsg").innerHTML = `<div style='color:#ef4444; font-weight:600;'>${err.message || 'Failed to create course'}</div>`;
+        }
+    } catch(e) {
+        document.getElementById("courseMsg").innerHTML = "<div style='color:#ef4444; font-weight:600;'>Error connecting to server</div>";
+    }
+}
+
+// Load courses
+async function loadCourses() {
+    const token = localStorage.getItem("token");
+    try {
+        const res = await fetch("/api/education/courses", {
+            headers: { "Authorization": "Bearer " + token }
+        });
+        if (res.ok) {
+            const courses = await res.json();
+            const table = document.getElementById("coursesTable");
+            if (courses.length === 0) {
+                table.innerHTML = "<tr><td colspan='4' style='text-align: center; color: var(--muted);'>No courses found.</td></tr>";
+                return;
+            }
+            
+            let html = "";
+            courses.forEach(course => {
+                html += `
+                <tr>
+                    <td>${course.id}</td>
+                    <td>${course.title}</td>
+                    <td><span class="pill-blue">${course.level}</span></td>
+                    <td><button class="action-sm">Edit</button></td>
+                </tr>
+                `;
+            });
+            table.innerHTML = html;
+        }
+    } catch(e) {
+        document.getElementById("coursesTable").innerHTML = "<tr><td colspan='4' style='text-align: center; color: #ef4444;'>Failed to load courses.</td></tr>";
+    }
+}
+
+// Load courses for select dropdown
+async function loadCoursesForSelect() {
+    const token = localStorage.getItem("token");
+    try {
+        const res = await fetch("/api/education/courses", {
+            headers: { "Authorization": "Bearer " + token }
+        });
+        if (res.ok) {
+            const courses = await res.json();
+            const select = document.getElementById("lessonCourseId");
+            select.innerHTML = "<option value=''>Select Course</option>";
+            courses.forEach(course => {
+                select.innerHTML += `<option value="${course.id}">${course.title}</option>`;
+            });
+        }
+    } catch(e) {
+        console.error("Failed to load courses for select");
+    }
+}
+
+// Add lesson
+async function addLesson() {
+    const token = localStorage.getItem("token");
+    const courseId = document.getElementById("lessonCourseId").value;
+    const title = document.getElementById("lessonTitle").value.trim();
+    const content = document.getElementById("lessonContent").value.trim();
+    
+    if (!courseId || !title || !content) {
+        document.getElementById("lessonMsg").innerHTML = "<div style='color:#ef4444; font-weight:600;'>Fill all fields</div>";
+        return;
+    }
+    
+    try {
+        const res = await fetch(`/api/admin/education/course/${courseId}/lesson`, {
+            method: "POST",
+            headers: {
+                "Authorization": "Bearer " + token,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                title: title,
+                content: content
+            })
+        });
+        
+        if (res.ok) {
+            document.getElementById("lessonMsg").innerHTML = "<div style='color:#10b981; font-weight:600;'>Lesson added successfully!</div>";
+            document.getElementById("lessonTitle").value = "";
+            document.getElementById("lessonContent").value = "";
+            loadLessons();
+            showToast("Lesson added successfully!");
+        } else {
+            const err = await res.text();
+            document.getElementById("lessonMsg").innerHTML = `<div style='color:#ef4444; font-weight:600;'>${err || 'Failed to add lesson'}</div>`;
+        }
+    } catch(e) {
+        document.getElementById("lessonMsg").innerHTML = "<div style='color:#ef4444; font-weight:600;'>Error connecting to server</div>";
+    }
+}
+
+// Load lessons
+async function loadLessons() {
+    const token = localStorage.getItem("token");
+    try {
+        const res = await fetch("/api/admin/education/lessons", {
+            headers: { "Authorization": "Bearer " + token }
+        });
+        if (res.ok) {
+            const lessons = await res.json();
+            const table = document.getElementById("lessonsTable");
+            if (lessons.length === 0) {
+                table.innerHTML = "<tr><td colspan='4' style='text-align: center; color: var(--muted);'>No lessons found.</td></tr>";
+                return;
+            }
+            
+            let html = "";
+            lessons.forEach(lesson => {
+                html += `
+                <tr>
+                    <td>${lesson.id}</td>
+                    <td>${lesson.title}</td>
+                    <td>${lesson.course?.title || 'N/A'}</td>
+                    <td><button class="action-sm">Edit</button></td>
+                </tr>
+                `;
+            });
+            table.innerHTML = html;
+        } else {
+            // Fallback: try to get lessons from education endpoint
+            const coursesRes = await fetch("/api/education/courses", {
+                headers: { "Authorization": "Bearer " + token }
+            });
+            if (coursesRes.ok) {
+                const courses = await coursesRes.json();
+                let allLessons = [];
+                for (const course of courses) {
+                    const lessonsRes = await fetch(`/api/education/courses/${course.id}/lessons`, {
+                        headers: { "Authorization": "Bearer " + token }
+                    });
+                    if (lessonsRes.ok) {
+                        const courseLessons = await lessonsRes.json();
+                        allLessons = allLessons.concat(courseLessons.map(l => ({...l, courseTitle: course.title})));
+                    }
+                }
+                
+                const table = document.getElementById("lessonsTable");
+                if (allLessons.length === 0) {
+                    table.innerHTML = "<tr><td colspan='4' style='text-align: center; color: var(--muted);'>No lessons found.</td></tr>";
+                    return;
+                }
+                
+                let html = "";
+                allLessons.forEach(lesson => {
+                    html += `
+                    <tr>
+                        <td>${lesson.id}</td>
+                        <td>${lesson.title}</td>
+                        <td>${lesson.courseTitle || 'N/A'}</td>
+                        <td><button class="action-sm">Edit</button></td>
+                    </tr>
+                    `;
+                });
+                table.innerHTML = html;
+            }
+        }
+    } catch(e) {
+        document.getElementById("lessonsTable").innerHTML = "<tr><td colspan='4' style='text-align: center; color: #ef4444;'>Failed to load lessons.</td></tr>";
+    }
+}
+
+// Load lessons for select dropdown
+async function loadLessonsForSelect() {
+    const token = localStorage.getItem("token");
+    try {
+        const coursesRes = await fetch("/api/education/courses", {
+            headers: { "Authorization": "Bearer " + token }
+        });
+        if (coursesRes.ok) {
+            const courses = await coursesRes.json();
+            let allLessons = [];
+            for (const course of courses) {
+                const lessonsRes = await fetch(`/api/education/courses/${course.id}/lessons`, {
+                    headers: { "Authorization": "Bearer " + token }
+                });
+                if (lessonsRes.ok) {
+                    const courseLessons = await lessonsRes.json();
+                    allLessons = allLessons.concat(courseLessons.map(l => ({...l, courseTitle: course.title})));
+                }
+            }
+            
+            const select = document.getElementById("quizLessonId");
+            select.innerHTML = "<option value=''>Select Lesson</option>";
+            allLessons.forEach(lesson => {
+                select.innerHTML += `<option value="${lesson.id}">${lesson.courseTitle} - ${lesson.title}</option>`;
+            });
+        }
+    } catch(e) {
+        console.error("Failed to load lessons for select");
+    }
+}
+
+// Add quiz
+async function addQuiz() {
+    const token = localStorage.getItem("token");
+    const lessonId = document.getElementById("quizLessonId").value;
+    const question = document.getElementById("quizQuestion").value.trim();
+    const option1 = document.getElementById("quizOption1").value.trim();
+    const option2 = document.getElementById("quizOption2").value.trim();
+    const option3 = document.getElementById("quizOption3").value.trim();
+    const option4 = document.getElementById("quizOption4").value.trim();
+    const correctAnswer = document.getElementById("quizCorrectAnswer").value;
+    
+    if (!lessonId || !question || !option1 || !option2 || !option3 || !option4 || !correctAnswer) {
+        document.getElementById("quizMsg").innerHTML = "<div style='color:#ef4444; font-weight:600;'>Fill all fields</div>";
+        return;
+    }
+    
+    try {
+        const res = await fetch(`/api/admin/education/lesson/${lessonId}/quiz`, {
+            method: "POST",
+            headers: {
+                "Authorization": "Bearer " + token,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                question: question,
+                optionA: option1,
+                optionB: option2,
+                optionC: option3,
+                optionD: option4,
+                correctAnswer: correctAnswer
+            })
+        });
+        
+        if (res.ok) {
+            document.getElementById("quizMsg").innerHTML = "<div style='color:#10b981; font-weight:600;'>Quiz added successfully!</div>";
+            document.getElementById("quizQuestion").value = "";
+            document.getElementById("quizOption1").value = "";
+            document.getElementById("quizOption2").value = "";
+            document.getElementById("quizOption3").value = "";
+            document.getElementById("quizOption4").value = "";
+            document.getElementById("quizCorrectAnswer").value = "";
+            loadQuizzes();
+            showToast("Quiz added successfully!");
+        } else {
+            const err = await res.text();
+            document.getElementById("quizMsg").innerHTML = `<div style='color:#ef4444; font-weight:600;'>${err || 'Failed to add quiz'}</div>`;
+        }
+    } catch(e) {
+        document.getElementById("quizMsg").innerHTML = "<div style='color:#ef4444; font-weight:600;'>Error connecting to server</div>";
+    }
+}
+
+// Load quizzes
+async function loadQuizzes() {
+    const token = localStorage.getItem("token");
+    try {
+        const coursesRes = await fetch("/api/education/courses", {
+            headers: { "Authorization": "Bearer " + token }
+        });
+        if (coursesRes.ok) {
+            const courses = await coursesRes.json();
+            let allQuizzes = [];
+            for (const course of courses) {
+                const lessonsRes = await fetch(`/api/education/courses/${course.id}/lessons`, {
+                    headers: { "Authorization": "Bearer " + token }
+                });
+                if (lessonsRes.ok) {
+                    const courseLessons = await lessonsRes.json();
+                    for (const lesson of courseLessons) {
+                        const quizRes = await fetch(`/api/education/lessons/${lesson.id}/quiz`, {
+                            headers: { "Authorization": "Bearer " + token }
+                        });
+                        if (quizRes.ok) {
+                            const quizzes = await quizRes.json();
+                            allQuizzes = allQuizzes.concat(quizzes.map(q => ({...q, lessonTitle: lesson.title, courseTitle: course.title})));
+                        }
+                    }
+                }
+            }
+            
+            const table = document.getElementById("quizzesTable");
+            if (allQuizzes.length === 0) {
+                table.innerHTML = "<tr><td colspan='4' style='text-align: center; color: var(--muted);'>No quizzes found.</td></tr>";
+                return;
+            }
+            
+            let html = "";
+            allQuizzes.forEach(quiz => {
+                html += `
+                <tr>
+                    <td>${quiz.id}</td>
+                    <td>${quiz.question?.substring(0, 50)}${quiz.question?.length > 50 ? '...' : ''}</td>
+                    <td>${quiz.lessonTitle || 'N/A'}</td>
+                    <td><span class="pill-green">${quiz.correctAnswer || 'N/A'}</span></td>
+                </tr>
+                `;
+            });
+            table.innerHTML = html;
+        }
+    } catch(e) {
+        document.getElementById("quizzesTable").innerHTML = "<tr><td colspan='4' style='text-align: center; color: #ef4444;'>Failed to load quizzes.</td></tr>";
     }
 }

@@ -6,6 +6,8 @@ import com.project.microstart.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/admin/education")
 @RequiredArgsConstructor
@@ -70,5 +72,10 @@ public class AdminEducationController {
         return "Badge added successfully";
     }
 
+    // ✅ Get All Lessons (RETURN LIST)
+    @GetMapping("/lessons")
+    public List<Lesson> getAllLessons() {
+        return lessonRepository.findAll();
+    }
 
 }

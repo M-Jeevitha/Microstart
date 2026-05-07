@@ -389,25 +389,131 @@
 
         <!-- 4. Content Management Tab -->
         <div id="contentTab" class="tab-content">
-            <div class="panel">
-                <div class="panel-head">
-                    <h3>Financial Education Modules</h3>
-                    <button class="primary-action" style="padding: 8px 15px; font-size: 13px;">Upload Module</button>
+            <div class="admin-nav" style="margin-bottom: 20px;">
+                <button class="active" onclick="switchContentSubTab('courses')" id="coursesSubTab">Courses</button>
+                <button onclick="switchContentSubTab('lessons')" id="lessonsSubTab">Lessons</button>
+                <button onclick="switchContentSubTab('quizzes')" id="quizzesSubTab">Quizzes</button>
+            </div>
+
+            <!-- Courses Sub-tab -->
+            <div id="coursesSubContent" class="content-sub-content">
+                <div class="panel">
+                    <div class="panel-head">
+                        <h3>Create New Course</h3>
+                    </div>
+                    <input id="courseTitle" class="input" placeholder="Course Title (e.g. Financial Basics)">
+                    <input id="courseDescription" class="input" placeholder="Course Description">
+                    <input id="courseLevel" class="input" placeholder="Level (Beginner, Intermediate, Advanced)">
+                    <button class="primary-action" onclick="addCourse()">Create Course</button>
+                    <div id="courseMsg" style="margin-top:15px;"></div>
                 </div>
-                <div class="grid-three">
-                    <div class="stat-card" style="padding: 20px;">
-                        <h4 style="color: #fff; margin-bottom: 5px;">Basics of Budgeting</h4>
-                        <p style="color: var(--muted); font-size: 13px; margin-bottom: 15px;">Module 1 • Video & Quiz</p>
-                        <button class="action-sm">Edit Content</button>
+
+                <div class="panel" style="margin-top: 20px;">
+                    <div class="panel-head">
+                        <h3>Existing Courses</h3>
+                        <button class="primary-action" style="padding: 8px 15px; font-size: 13px;" onclick="loadCourses()">🔄 Refresh</button>
                     </div>
-                    <div class="stat-card" style="padding: 20px;">
-                        <h4 style="color: #fff; margin-bottom: 5px;">Understanding Credit</h4>
-                        <p style="color: var(--muted); font-size: 13px; margin-bottom: 15px;">Module 2 • Text & PDF</p>
-                        <button class="action-sm">Edit Content</button>
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Title</th>
+                                <th>Level</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="coursesTable">
+                            <tr>
+                                <td colspan="4" style="text-align: center; color: var(--muted);">Loading courses...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Lessons Sub-tab -->
+            <div id="lessonsSubContent" class="content-sub-content" style="display: none;">
+                <div class="panel">
+                    <div class="panel-head">
+                        <h3>Add Lesson to Course</h3>
                     </div>
-                    <div class="stat-card" style="padding: 20px; border: 1px dashed var(--glass-border); background: transparent; display: flex; align-items: center; justify-content: center; cursor: pointer;">
-                        <span style="color: var(--primary);">+ Create New Quiz</span>
+                    <select id="lessonCourseId" class="input">
+                        <option value="">Select Course</option>
+                    </select>
+                    <input id="lessonTitle" class="input" placeholder="Lesson Title">
+                    <textarea id="lessonContent" class="input" placeholder="Lesson Content" rows="4"></textarea>
+                    <button class="primary-action" onclick="addLesson()">Add Lesson</button>
+                    <div id="lessonMsg" style="margin-top:15px;"></div>
+                </div>
+
+                <div class="panel" style="margin-top: 20px;">
+                    <div class="panel-head">
+                        <h3>All Lessons</h3>
+                        <button class="primary-action" style="padding: 8px 15px; font-size: 13px;" onclick="loadLessons()">🔄 Refresh</button>
                     </div>
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Title</th>
+                                <th>Course</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="lessonsTable">
+                            <tr>
+                                <td colspan="4" style="text-align: center; color: var(--muted);">Loading lessons...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Quizzes Sub-tab -->
+            <div id="quizzesSubContent" class="content-sub-content" style="display: none;">
+                <div class="panel">
+                    <div class="panel-head">
+                        <h3>Add Quiz Question to Lesson</h3>
+                    </div>
+                    <select id="quizLessonId" class="input">
+                        <option value="">Select Lesson</option>
+                    </select>
+                    <input id="quizQuestion" class="input" placeholder="Question">
+                    <input id="quizOption1" class="input" placeholder="Option A">
+                    <input id="quizOption2" class="input" placeholder="Option B">
+                    <input id="quizOption3" class="input" placeholder="Option C">
+                    <input id="quizOption4" class="input" placeholder="Option D">
+                    <select id="quizCorrectAnswer" class="input">
+                        <option value="">Select Correct Answer</option>
+                        <option value="A">A</option>
+                        <option value="B">B</option>
+                        <option value="C">C</option>
+                        <option value="D">D</option>
+                    </select>
+                    <button class="primary-action" onclick="addQuiz()">Add Quiz Question</button>
+                    <div id="quizMsg" style="margin-top:15px;"></div>
+                </div>
+
+                <div class="panel" style="margin-top: 20px;">
+                    <div class="panel-head">
+                        <h3>All Quiz Questions</h3>
+                        <button class="primary-action" style="padding: 8px 15px; font-size: 13px;" onclick="loadQuizzes()">🔄 Refresh</button>
+                    </div>
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Question</th>
+                                <th>Lesson</th>
+                                <th>Correct Answer</th>
+                            </tr>
+                        </thead>
+                        <tbody id="quizzesTable">
+                            <tr>
+                                <td colspan="4" style="text-align: center; color: var(--muted);">Loading quizzes...</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
@@ -488,6 +594,6 @@
 
 <div class="toast" id="toast">Action completed</div>
 
-<script src="js/admin.js"></script>
+<script src="js/admin.js?v=2"></script>
 </body>
 </html>
